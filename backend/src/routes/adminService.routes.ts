@@ -11,9 +11,12 @@ import {
 const router = Router();
 
 /* ===============================
-   MULTER CONFIG
+   MULTER CONFIG (FIXED FOR VERCEL)
 ================================ */
-const upload = multer({ dest: "services/" });
+// Use memoryStorage instead of dest: "services/" 
+// to avoid "Read-only file system" errors on Vercel.
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 /* ===============================
    ROUTES
