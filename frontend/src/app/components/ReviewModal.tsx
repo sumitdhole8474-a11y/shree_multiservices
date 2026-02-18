@@ -1,7 +1,7 @@
 "use client";
 
 import { X, Star } from "lucide-react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL!;
@@ -19,11 +19,27 @@ export default function ReviewModal({ open, onClose }: any) {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  /* =============================
+     LOCK BACKGROUND SCROLL
+  ============================= */
+  useEffect(() => {
+    if (open) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
   if (!open) return null;
 
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setLoading(true);
+    setError("");
 
     try {
       const res = await fetch(`${API_URL}/api/reviews`, {
@@ -48,17 +64,21 @@ export default function ReviewModal({ open, onClose }: any) {
      MOBILE NUMBER HANDLER
   ============================= */
   const handleMobileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.replace(/\D/g, ""); // remove non-numbers
-
+    const value = e.target.value.replace(/\D/g, "");
     if (value.length <= 10) {
       setForm({ ...form, mobile: value });
     }
   };
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center">
-      <div className="bg-white p-6 rounded-xl w-full max-w-lg relative">
-        <button onClick={onClose} className="absolute top-4 right-4 text-black">
+    <div className="fixed inset-0 z-[100] bg-black/50 flex items-center justify-center px-4">
+      <div className="bg-white p-6 rounded-xl w-full max-w-lg relative z-[101]">
+        {/* Close Button */}
+        <button
+          onClick={onClose}
+          className="absolute top-4 right-4 text-black hover:opacity-70 transition"
+          aria-label="Close review modal"
+        >
           <X />
         </button>
 
@@ -72,7 +92,7 @@ export default function ReviewModal({ open, onClose }: any) {
             <Star
               key={n}
               onClick={() => setForm({ ...form, rating: n })}
-              className={`cursor-pointer ${
+              className={`cursor-pointer transition ${
                 n <= form.rating
                   ? "text-yellow-400 fill-yellow-400"
                   : "text-gray-300"
@@ -114,10 +134,14 @@ export default function ReviewModal({ open, onClose }: any) {
           />
 
           {error && (
-            <p className="text-red-500">{error}</p>
+            <p className="text-red-500 text-sm">{error}</p>
           )}
 
-          <button className="btn-primary text-bold text-white w-full bg-blue-600 rounded-2xl py-2">
+          <button
+            type="submit"
+            disabled={loading}
+            className="btn-primary text-white w-full bg-blue-600 rounded-2xl py-2 disabled:opacity-70"
+          >
             {loading ? "Submitting..." : "Submit Review"}
           </button>
         </form>

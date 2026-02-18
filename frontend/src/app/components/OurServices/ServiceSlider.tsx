@@ -75,7 +75,7 @@ export default function ServiceSlider({ services }: ServiceSliderProps) {
         onScroll={checkScroll}
         className="grid grid-flow-col gap-6 overflow-x-auto pb-4 pt-2 scroll-smooth hide-scrollbar snap-x snap-mandatory outline-none focus:outline-none active:outline-none
         
-        auto-cols-[85%] 
+        auto-cols-[265px] 
         sm:auto-cols-[calc((100%-1.5rem)/2)] 
         lg:auto-cols-[calc((100%-4.5rem)/4)] 
         xl:auto-cols-[calc((100%-6rem)/5)]"

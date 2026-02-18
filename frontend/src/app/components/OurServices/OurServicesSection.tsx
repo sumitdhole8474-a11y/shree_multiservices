@@ -28,7 +28,7 @@ export default async function OurServices() {
         </div>
 
         {/* LOGIC: Mapping categories */}
-        <div className="space-y-24">
+        <div className="space-y-10">
           {categories.map((category: any) => (
             <CategorySection
               key={category.id}
