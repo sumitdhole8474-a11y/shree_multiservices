@@ -29,24 +29,32 @@ export default async function CategoryPage({ params }: Props) {
 
   return (
     <section className="relative min-h-screen bg-slate-50 py-24">
-      {/* Decorative Background Glow (Adds depth) */}
+      {/* Decorative Background Glow */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[500px] bg-blue-100/50 blur-[100px] rounded-full pointer-events-none -z-10" />
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        
-        {/* 🔹 Premium Header Section */}
+        {/* 🔹 Header */}
         <div className="text-center max-w-3xl mx-auto mb-20">
-    
           <h1 className="text-4xl md:text-4xl font-bold text-slate-900 tracking-tight mb-6">
             {category.title}
           </h1>
+
           {/* Decorative underline */}
           <div className="h-1.5 w-24 bg-blue-600 mx-auto rounded-full shadow-sm" />
         </div>
 
         {/* 🔹 Services Grid */}
         {services.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-6 lg:gap-8">
+          <div className="
+            grid
+            grid-cols-2
+            sm:grid-cols-2
+            lg:grid-cols-4
+            xl:grid-cols-5
+            gap-6
+            lg:gap-8
+            place-items-center
+          ">
             {services.map((service: any) => (
               <ServiceCard
                 key={service.id}
@@ -57,7 +65,7 @@ export default async function CategoryPage({ params }: Props) {
             ))}
           </div>
         ) : (
-          /* 🔹 Enhanced Empty State */
+          /* 🔹 Empty State */
           <div className="flex flex-col items-center justify-center py-24 border-2 border-dashed border-slate-200 rounded-3xl bg-white/50 text-center">
             <div className="p-4 bg-slate-100 rounded-full mb-4">
               <span className="text-2xl">📂</span>

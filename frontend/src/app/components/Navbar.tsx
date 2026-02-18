@@ -10,10 +10,39 @@ export default function Navbar() {
   const pathname = usePathname();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  // Lock body scroll when menu is open
+  /* =============================
+     FIXED BODY SCROLL LOCK (MOBILE SAFE)
+  ============================= */
   useEffect(() => {
-    document.body.style.overflow = isMobileMenuOpen ? "hidden" : "unset";
-    return () => { document.body.style.overflow = "unset"; }; // Cleanup
+    if (isMobileMenuOpen) {
+      const scrollY = window.scrollY;
+
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.left = "0";
+      document.body.style.right = "0";
+      document.body.style.width = "100%";
+    } else {
+      const scrollY = document.body.style.top;
+
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+      document.body.style.right = "";
+      document.body.style.width = "";
+
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY) * -1);
+      }
+    }
+
+    return () => {
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.left = "";
+      document.body.style.right = "";
+      document.body.style.width = "";
+    };
   }, [isMobileMenuOpen]);
 
   const navItems = [
@@ -25,11 +54,12 @@ export default function Navbar() {
 
   return (
     <>
+      {/* NAVBAR */}
       <header className="fixed top-0 inset-x-0 z-[100] w-full bg-white backdrop-blur-md border-b border-gray-100 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex h-16 sm:h-20 items-center justify-between gap-4">
-            
-            {/* LOGO SECTION */}
+
+            {/* LOGO */}
             <Link
               href="/"
               className="flex items-center gap-2 shrink min-w-0 group"
@@ -96,9 +126,11 @@ export default function Navbar() {
         <div className="flex flex-col h-full">
           {/* Drawer Header */}
           <div className="flex items-center justify-between px-6 py-5 border-b border-gray-50">
-            <span className="font-bold text-slate-900 uppercase tracking-wider text-sm">Shree Multiservices</span>
-            <button 
-              onClick={() => setIsMobileMenuOpen(false)} 
+            <span className="font-bold text-slate-900 uppercase tracking-wider text-sm">
+              Shree Multiservices
+            </span>
+            <button
+              onClick={() => setIsMobileMenuOpen(false)}
               className="p-2 -mr-2 text-slate-500 hover:text-slate-900"
               aria-label="Close menu"
             >
@@ -114,13 +146,16 @@ export default function Navbar() {
                 href={item.path}
                 onClick={() => setIsMobileMenuOpen(false)}
                 className={`flex items-center justify-between px-4 py-4 rounded-xl text-base font-semibold transition-all ${
-                  pathname === item.path 
-                    ? "bg-blue-50 text-blue-600" 
+                  pathname === item.path
+                    ? "bg-blue-50 text-blue-600"
                     : "text-slate-700 hover:bg-slate-50"
                 }`}
               >
                 {item.name}
-                <ChevronRight size={18} className={pathname === item.path ? "opacity-100" : "opacity-0"} />
+                <ChevronRight
+                  size={18}
+                  className={pathname === item.path ? "opacity-100" : "opacity-0"}
+                />
               </Link>
             ))}
           </nav>
