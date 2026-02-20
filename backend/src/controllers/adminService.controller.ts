@@ -2,10 +2,12 @@ import { Request, Response } from "express";
 import pool from "../config/db";
 import slugify from "slugify";
 
-/* ===============================
-   CREATE SERVICE
-================================ */
+/* =========================================================
+   CREATE SERVICE (Exactly 5 Images Required)
+========================================================= */
 export const createService = async (req: Request, res: Response) => {
+  const client = await pool.connect();
+
   try {
     const {
       title,
@@ -14,104 +16,236 @@ export const createService = async (req: Request, res: Response) => {
       category_id,
     } = req.body;
 
-    const image = req.file;
-
-    if (!title || !image || !category_id) {
+    if (!title || !category_id) {
       return res.status(400).json({
-        message: "Title, image & category required",
+        success: false,
+        message: "Title & category required",
       });
     }
 
-    const slug = slugify(title, { lower: true });
+    const files = req.files as {
+      [fieldname: string]: Express.Multer.File[];
+    };
 
-    const result = await pool.query(
+    const galleryFiles = files?.gallery || [];
+
+    if (galleryFiles.length !== 5) {
+      return res.status(400).json({
+        success: false,
+        message: "Exactly 5 images are required",
+      });
+    }
+
+    await client.query("BEGIN");
+
+    const slug = slugify(title, { lower: true, strict: true });
+
+    const serviceResult = await client.query(
       `
       INSERT INTO services
-      (title, slug, image_url, short_description, long_description, category_id, is_active)
-      VALUES ($1,$2,$3,$4,$5,$6,true)
+      (title, slug, short_description, long_description, category_id, is_active)
+      VALUES ($1,$2,$3,$4,$5,true)
       RETURNING *
       `,
       [
         title,
         slug,
-        `/services/${image.filename}`,
-        short_description,
-        long_description,
+        short_description || null,
+        long_description || null,
         category_id,
       ]
     );
 
-    res.status(201).json(result.rows[0]);
+    const service = serviceResult.rows[0];
+
+    for (let i = 0; i < 5; i++) {
+      const file = galleryFiles[i];
+
+      const base64Image = `data:${file.mimetype};base64,${file.buffer.toString(
+        "base64"
+      )}`;
+
+      await client.query(
+        `
+        INSERT INTO service_images (service_id, image_url, sort_order)
+        VALUES ($1, $2, $3)
+        `,
+        [service.id, base64Image, i + 1]
+      );
+    }
+
+    await client.query("COMMIT");
+
+    return res.status(201).json({
+      success: true,
+      data: service,
+    });
+
   } catch (error) {
+    await client.query("ROLLBACK");
     console.error("createService error:", error);
-    res.status(500).json({ message: "Failed to create service" });
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to create service",
+    });
+  } finally {
+    client.release();
   }
 };
 
-/* ===============================
-   LIST SERVICES (ADMIN)
-================================ */
+/* =========================================================
+   GET ALL SERVICES (ADMIN)
+   Returns first image for card
+========================================================= */
 export const getAllServicesAdmin = async (_: Request, res: Response) => {
   try {
     const result = await pool.query(`
       SELECT 
         s.id,
         s.title,
-        s.image_url,
+        s.slug,
         s.short_description,
         s.long_description,
         s.category_id,
         s.is_active,
         s.created_at,
-        c.title AS category
+        c.title AS category,
+        (
+          SELECT si.image_url
+          FROM service_images si
+          WHERE si.service_id = s.id
+          ORDER BY si.sort_order ASC
+          LIMIT 1
+        ) AS image_url
       FROM services s
       JOIN categories c ON c.id = s.category_id
       ORDER BY s.created_at DESC
     `);
 
-    res.json(result.rows);
+    return res.json({
+      success: true,
+      data: result.rows,
+    });
+
   } catch (error) {
     console.error("getAllServicesAdmin error:", error);
-    res.status(500).json({ message: "Failed to fetch services" });
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch services",
+    });
   }
 };
 
-
-/* ===============================
-   UPDATE SERVICE ✅ (FIXED)
-================================ */
-export const updateService = async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const {
-    title,
-    short_description,
-    long_description,
-    category_id,
-  } = req.body;
-
-  const image = req.file;
+/* =========================================================
+   GET SERVICE DETAIL (PUBLIC)
+   Returns 5 ordered images
+========================================================= */
+export const getServiceDetail = async (req: Request, res: Response) => {
+  const { slug } = req.params;
 
   try {
-    const slug = title ? slugify(title, { lower: true }) : null;
-    const imageUrl = image ? `/services/${image.filename}` : null;
+    const serviceResult = await pool.query(
+      `
+      SELECT 
+        s.id,
+        s.title,
+        s.slug,
+        s.short_description,
+        s.long_description,
+        s.category_id,
+        s.is_active,
+        c.title AS category,
+        c.slug AS category_slug
+      FROM services s
+      JOIN categories c ON c.id = s.category_id
+      WHERE s.slug = $1
+        AND s.is_active = true
+      LIMIT 1
+      `,
+      [slug]
+    );
 
-    const result = await pool.query(
+    if (!serviceResult.rows.length) {
+      return res.status(404).json({
+        success: false,
+        message: "Service not found",
+      });
+    }
+
+    const service = serviceResult.rows[0];
+
+    const imagesResult = await pool.query(
+      `
+      SELECT image_url, sort_order
+      FROM service_images
+      WHERE service_id = $1
+      ORDER BY sort_order ASC
+      `,
+      [service.id]
+    );
+
+    service.images = imagesResult.rows;
+
+    return res.json({
+      success: true,
+      data: service,
+    });
+
+  } catch (error) {
+    console.error("getServiceDetail error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch service",
+    });
+  }
+};
+
+/* =========================================================
+   UPDATE SERVICE
+   Replace all 5 images if new ones provided
+========================================================= */
+export const updateService = async (req: Request, res: Response) => {
+  const { id } = req.params;
+  const client = await pool.connect();
+
+  try {
+    const {
+      title,
+      short_description,
+      long_description,
+      category_id,
+    } = req.body;
+
+    const files = req.files as {
+      [fieldname: string]: Express.Multer.File[];
+    };
+
+    const galleryFiles = files?.gallery || [];
+
+    await client.query("BEGIN");
+
+    const slug = title
+      ? slugify(title, { lower: true, strict: true })
+      : null;
+
+    const updateResult = await client.query(
       `
       UPDATE services
       SET
         title = COALESCE($1, title),
         slug = COALESCE($2, slug),
-        image_url = COALESCE($3, image_url),
-        short_description = COALESCE($4, short_description),
-        long_description = COALESCE($5, long_description),
-        category_id = COALESCE($6, category_id)
-      WHERE id = $7
+        short_description = COALESCE($3, short_description),
+        long_description = COALESCE($4, long_description),
+        category_id = COALESCE($5, category_id)
+      WHERE id = $6
       RETURNING *
       `,
       [
         title || null,
         slug,
-        imageUrl,
         short_description || null,
         long_description || null,
         category_id || null,
@@ -119,20 +253,70 @@ export const updateService = async (req: Request, res: Response) => {
       ]
     );
 
-    if (result.rowCount === 0) {
-      return res.status(404).json({ message: "Service not found" });
+    if (updateResult.rowCount === 0) {
+      await client.query("ROLLBACK");
+
+      return res.status(404).json({
+        success: false,
+        message: "Service not found",
+      });
     }
 
-    res.json(result.rows[0]);
+    if (galleryFiles.length > 0) {
+      if (galleryFiles.length !== 5) {
+        await client.query("ROLLBACK");
+
+        return res.status(400).json({
+          success: false,
+          message: "Exactly 5 images required",
+        });
+      }
+
+      await client.query(
+        `DELETE FROM service_images WHERE service_id = $1`,
+        [id]
+      );
+
+      for (let i = 0; i < 5; i++) {
+        const file = galleryFiles[i];
+
+        const base64Image = `data:${file.mimetype};base64,${file.buffer.toString(
+          "base64"
+        )}`;
+
+        await client.query(
+          `
+          INSERT INTO service_images (service_id, image_url, sort_order)
+          VALUES ($1, $2, $3)
+          `,
+          [id, base64Image, i + 1]
+        );
+      }
+    }
+
+    await client.query("COMMIT");
+
+    return res.json({
+      success: true,
+      data: updateResult.rows[0],
+    });
+
   } catch (error) {
+    await client.query("ROLLBACK");
     console.error("updateService error:", error);
-    res.status(500).json({ message: "Failed to update service" });
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to update service",
+    });
+  } finally {
+    client.release();
   }
 };
 
-/* ===============================
+/* =========================================================
    TOGGLE SERVICE VISIBILITY
-================================ */
+========================================================= */
 export const toggleServiceVisibility = async (
   req: Request,
   res: Response
@@ -151,30 +335,55 @@ export const toggleServiceVisibility = async (
     );
 
     if (result.rowCount === 0) {
-      return res.status(404).json({ message: "Service not found" });
+      return res.status(404).json({
+        success: false,
+        message: "Service not found",
+      });
     }
 
-    res.json({
-      message: "Service visibility updated",
+    return res.json({
+      success: true,
       is_active: result.rows[0].is_active,
     });
+
   } catch (error) {
     console.error("toggleServiceVisibility error:", error);
-    res.status(500).json({ message: "Failed to update service visibility" });
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to update service visibility",
+    });
   }
 };
 
-/* ===============================
+/* =========================================================
    DELETE SERVICE
-================================ */
+========================================================= */
 export const deleteService = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   try {
-    await pool.query(`DELETE FROM services WHERE id = $1`, [id]);
-    res.json({ success: true });
+    await pool.query(
+      `DELETE FROM service_images WHERE service_id = $1`,
+      [id]
+    );
+
+    await pool.query(
+      `DELETE FROM services WHERE id = $1`,
+      [id]
+    );
+
+    return res.json({
+      success: true,
+      message: "Service deleted successfully",
+    });
+
   } catch (error) {
     console.error("deleteService error:", error);
-    res.status(500).json({ message: "Failed to delete service" });
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to delete service",
+    });
   }
 };

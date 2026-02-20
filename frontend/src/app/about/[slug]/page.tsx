@@ -9,72 +9,69 @@ type Props = {
 };
 
 export default async function AboutBlogDetailPage({ params }: Props) {
+  // ✅ await params (your existing logic kept)
   const { slug } = await params;
 
+  console.log("SLUG:", slug);
+
   const blog = await getBlogBySlug(slug);
+  console.log("BLOG:", blog);
 
   if (!blog) {
     notFound();
   }
 
-  const coverImage =
-    blog.cover_image?.startsWith("/")
+  // ✅ Base64 + Normal Path Support (ONLY CHANGE)
+  const coverImage = blog.cover_image
+    ? blog.cover_image.startsWith("data:")
       ? blog.cover_image
-      : blog.cover_image
-      ? `/${blog.cover_image}`
-      : null;
+      : blog.cover_image.startsWith("/")
+      ? blog.cover_image
+      : `/${blog.cover_image}`
+    : null;
 
   return (
-    <main className="bg-white text-black">
-      <section className="max-w-5xl mx-auto px-6 py-24">
-        {/* Header */}
-        <header className="mb-12">
-          <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight leading-tight mb-4">
-            {blog.title}
-          </h1>
+    <section className="py-20 max-w-4xl mx-auto px-6">
+      {/* Title */}
+      <h1 className="text-4xl font-bold mb-4 text-gray-900">
+        {blog.title}
+      </h1>
 
-          <p className="text-sm text-gray-500">
-            Published on{" "}
-            {new Date(blog.created_at).toLocaleDateString("en-IN", {
-              day: "numeric",
-              month: "long",
-              year: "numeric",
-            })}
-          </p>
-        </header>
+      {/* Date */}
+      <p className="text-sm text-gray-400 mb-8">
+        {new Date(blog.created_at).toLocaleDateString("en-IN", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        })}
+      </p>
 
-        {/* Cover Image */}
-        {coverImage && (
-          <div className="relative w-full h-[460px] mb-16 rounded-3xl overflow-hidden shadow-xl">
+      {/* Cover Image */}
+      {coverImage && (
+        <div className="relative w-full h-[420px] mb-10 rounded-xl overflow-hidden">
+          {coverImage.startsWith("data:") ? (
+            // Base64 must use normal img
+            <img
+              src={coverImage}
+              alt={blog.title}
+              className="w-full h-full object-cover"
+            />
+          ) : (
             <Image
               src={coverImage}
               alt={blog.title}
               fill
-              priority
               className="object-cover"
+              priority
             />
-          </div>
-        )}
+          )}
+        </div>
+      )}
 
-        {/* Content */}
-        <article
-          className="
-            prose 
-            prose-lg 
-            max-w-none 
-            prose-headings:text-black
-            prose-p:text-gray-800
-            prose-strong:text-black
-            prose-li:text-gray-800
-            prose-a:text-blue-600
-            prose-a:font-semibold
-            prose-a:no-underline
-            hover:prose-a:underline
-          "
-        >
-          {blog.content}
-        </article>
-      </section>
-    </main>
+      {/* Content */}
+      <article className="prose prose-lg max-w-none text-gray-700">
+        {blog.content}
+      </article>
+    </section>
   );
 }

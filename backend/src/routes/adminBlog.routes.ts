@@ -5,7 +5,7 @@ import {
   deleteBlog,
   toggleBlogVisibility,
   updateBlog,
- getBlogByIdAdmin,
+  getBlogByIdAdmin,
 } from "../controllers/adminBlog.controller";
 
 const router = Router();
@@ -14,22 +14,28 @@ const router = Router();
    ADMIN BLOG ROUTES
 ================================ */
 
-// Get all blogs (published + hidden)
+// GET ALL BLOGS (published + hidden)
+// GET /api/admin/blogs
 router.get("/", getAllBlogsAdmin);
 
-// Create blog
+// CREATE BLOG
+// POST /api/admin/blogs
 router.post("/", createBlog);
 
-// Delete blog
-router.delete("/:id", deleteBlog);
-
-// Hide / Unhide blog
+// TOGGLE VISIBILITY
+// PATCH /api/admin/blogs/:id/toggle
 router.patch("/:id/toggle", toggleBlogVisibility);
 
-// Update blog
-router.put("/:id", updateBlog); 
+// DELETE BLOG
+// DELETE /api/admin/blogs/:id
+router.delete("/:id", deleteBlog);
 
-// Get blog by ID (admin)
+// GET BLOG BY ID
+// GET /api/admin/blogs/:id
 router.get("/:id", getBlogByIdAdmin);
+
+// UPDATE BLOG
+// PUT /api/admin/blogs/:id
+router.put("/:id", updateBlog);
 
 export default router;

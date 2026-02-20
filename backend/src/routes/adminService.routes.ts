@@ -10,38 +10,54 @@ import {
 
 const router = Router();
 
-/* ===============================
-   MULTER CONFIG (FIXED FOR VERCEL)
-================================ */
-// Use memoryStorage instead of dest: "services/" 
-// to avoid "Read-only file system" errors on Vercel.
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+/* =========================================================
+   MULTER CONFIG (Base64 + Vercel Safe)
+========================================================= */
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 5 * 1024 * 1024, // Increased to 5MB for safety
+  },
+  fileFilter: (req, file, cb) => {
+    if (!file.mimetype.startsWith("image/")) {
+      cb(new Error("Only image files are allowed"));
+    } else {
+      cb(null, true);
+    }
+  },
+});
 
-/* ===============================
-   ROUTES
-================================ */
+/* =========================================================
+   ROUTES (FIXED FOR GALLERY)
+========================================================= */
 
-// Create service
-router.post("/", upload.single("image"), createService);
+// ✅ CREATE SERVICE (Main + Gallery)
+router.post(
+  "/",
+  upload.fields([
+    { name: "image", maxCount: 1 },
+    { name: "gallery", maxCount: 5 },
+  ]),
+  createService
+);
 
-// Get all services (admin)
+// ✅ GET ALL SERVICES (ADMIN LIST)
 router.get("/", getAllServicesAdmin);
 
-// Update service (image optional)
+// ✅ UPDATE SERVICE (Main optional + Replace Gallery)
 router.put(
   "/:id",
-  upload.single("image"),
+  upload.fields([
+    { name: "image", maxCount: 1 },
+    { name: "gallery", maxCount: 5 },
+  ]),
   updateService
 );
 
-// Hide / Unhide service
-router.patch(
-  "/:id/toggle",
-  toggleServiceVisibility
-);
+// ✅ TOGGLE VISIBILITY
+router.patch("/:id/toggle", toggleServiceVisibility);
 
-// Delete service
+// ✅ DELETE SERVICE (Deletes gallery too)
 router.delete("/:id", deleteService);
 
 export default router;

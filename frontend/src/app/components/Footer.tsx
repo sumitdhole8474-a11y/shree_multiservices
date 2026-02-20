@@ -11,7 +11,7 @@ export default function Footer() {
 
           {/* Left: Copyright */}
           <p className="text-center md:text-left">
-            © 2026 <span className=" text-slate-900">Shree Multiservices Pvt. Ltd.</span> All rights reserved.
+            © 2026 <span className=" text-slate-900">Shree Multiservices</span> All rights reserved.
           </p>
 
           {/* Center: Legal Links */}

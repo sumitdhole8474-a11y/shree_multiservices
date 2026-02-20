@@ -29,12 +29,23 @@ export const getAllBlogsAdmin = async (_: Request, res: Response) => {
 };
 
 /* ================================
-   ADMIN – CREATE BLOG
+   ADMIN – CREATE BLOG (BASE64 SAFE)
 ================================ */
 export const createBlog = async (req: Request, res: Response) => {
-  const { title, description, image, slug, content, cover_image } = req.body;
-
   try {
+    if (!req.body) {
+      return res.status(400).json({ message: "No body received" });
+    }
+
+    const {
+      title,
+      description,
+      image,
+      slug,
+      content,
+      cover_image,
+    } = req.body;
+
     await pool.query(
       `
       INSERT INTO blogs (
@@ -47,10 +58,18 @@ export const createBlog = async (req: Request, res: Response) => {
       )
       VALUES ($1, $2, $3, $4, $5, $6)
       `,
-      [title, description, image, slug, content, cover_image]
+      [
+        title,
+        description,
+        image || null,        // Base64 string
+        slug,
+        content,
+        cover_image || null,  // Base64 string
+      ]
     );
 
     res.status(201).json({ message: "Blog created successfully" });
+
   } catch (error) {
     console.error("createBlog error:", error);
     res.status(500).json({ message: "Failed to create blog" });
@@ -64,12 +83,10 @@ export const deleteBlog = async (req: Request, res: Response) => {
   const { id } = req.params;
 
   try {
-    await pool.query(
-      `DELETE FROM blogs WHERE id = $1`,
-      [id]
-    );
+    await pool.query(`DELETE FROM blogs WHERE id = $1`, [id]);
 
     res.status(200).json({ message: "Blog deleted successfully" });
+
   } catch (error) {
     console.error("deleteBlog error:", error);
     res.status(500).json({ message: "Failed to delete blog" });
@@ -106,6 +123,7 @@ export const getBlogByIdAdmin = async (req: Request, res: Response) => {
     }
 
     res.status(200).json(result.rows[0]);
+
   } catch (error) {
     console.error("getBlogByIdAdmin error:", error);
     res.status(500).json({ message: "Failed to fetch blog" });
@@ -113,13 +131,25 @@ export const getBlogByIdAdmin = async (req: Request, res: Response) => {
 };
 
 /* ================================
-   ADMIN – UPDATE BLOG
+   ADMIN – UPDATE BLOG (BASE64 SAFE)
 ================================ */
 export const updateBlog = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { title, description, image, slug, content, cover_image } = req.body;
 
   try {
+    if (!req.body) {
+      return res.status(400).json({ message: "No body received" });
+    }
+
+    const {
+      title,
+      description,
+      image,
+      slug,
+      content,
+      cover_image,
+    } = req.body;
+
     await pool.query(
       `
       UPDATE blogs
@@ -132,10 +162,19 @@ export const updateBlog = async (req: Request, res: Response) => {
         cover_image = $6
       WHERE id = $7
       `,
-      [title, description, image, slug, content, cover_image, id]
+      [
+        title,
+        description,
+        image || null,        // Base64
+        slug,
+        content,
+        cover_image || null,  // Base64
+        id,
+      ]
     );
 
     res.status(200).json({ message: "Blog updated successfully" });
+
   } catch (error) {
     console.error("updateBlog error:", error);
     res.status(500).json({ message: "Failed to update blog" });
@@ -159,6 +198,7 @@ export const toggleBlogVisibility = async (req: Request, res: Response) => {
     );
 
     res.status(200).json({ message: "Blog visibility updated" });
+
   } catch (error) {
     console.error("toggleBlogVisibility error:", error);
     res.status(500).json({ message: "Failed to update blog visibility" });

@@ -202,35 +202,35 @@ useEffect(() => {
   return (
     <main className="bg-white">
       {/* -------------------- ABOUT -------------------- */}
-     <section className="py-12 md:py-20 max-w-7xl mx-auto px-4 sm:px-6">
+     <section className="py-20 max-w-7xl mx-auto px-6">
   {/* Top Title */}
-  <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 md:mb-12 py-4 md:py-6 text-black">
+  <h1 className="text-4xl font-bold text-center mb-12 py-6 text-black">
     About Us
   </h1>
 
   {/* IMAGE + DESCRIPTION LAYOUT */}
-  <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-start mb-12 md:mb-16">
+  <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mb-16">
     
     {/* LEFT CONTENT */}
     <div>
-      <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-black mb-4 md:mb-6">
+      <h2 className="text-4xl font-bold text-black mb-6">
         Shree Multiservices
       </h2>
 
-      <p className="text-sm sm:text-base text-gray-700 leading-relaxed mb-3 md:mb-4">
+      <p className="text-gray-700 leading-relaxed mb-4">
         We, Aaple Sarkar at Nawathe in Amravati, Maharashtra, are a corporate
         consulting company managed by specialised team of consultants committed
         to provide quality experience to our clients in the widest spectrum of
         company registration services.
       </p>
 
-      <p className="text-sm sm:text-base text-gray-700 leading-relaxed mb-3 md:mb-4">
+      <p className="text-gray-700 leading-relaxed mb-4">
         Our diversified team with extensive legal, financial and corporate
         knowledge enable us to cater to the stated and unstated needs of our
         clients. Our aim is to provide best service to all our clients.
       </p>
 
-      <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
+      <p className="text-gray-700 leading-relaxed">
         We are passionate about making a measurable impact in all we do.
       </p>
     </div>
@@ -240,65 +240,65 @@ useEffect(() => {
       <img
         src="/aboutus.png"  
         alt="Shree Multiservices Office"
-        className="w-full h-[250px] sm:h-[300px] md:h-[400px] rounded-xl md:rounded-2xl shadow-lg object-cover"
+        className="w-full h-[400px] rounded-2xl shadow-lg object-cover"
       />
     </div>
   </div>
 
   {/* COUNTERS SECTION — UNCHANGED */}
-  <div className="grid grid-cols-3 gap-3 sm:gap-6 text-center border-t pt-6 md:pt-8">
+  <div className="grid grid-cols-3 gap-6 text-center border-t pt-8">
     <div>
-      <Star className="mx-auto text-blue-500 h-5 w-5 sm:h-6 sm:w-6" />
-      <div className="text-xl sm:text-2xl md:text-3xl font-bold text-blue-600">
+      <Star className="mx-auto text-blue-500" />
+      <div className="text-3xl font-bold text-blue-600">
         {counters.customer}%
       </div>
-      <p className="text-xs sm:text-sm text-gray-600">Customer Satisfaction</p>
+      <p className="text-gray-600">Customer Satisfaction</p>
     </div>
 
     <div>
-      <CheckCircle className="mx-auto text-green-500 h-5 w-5 sm:h-6 sm:w-6" />
-      <div className="text-xl sm:text-2xl md:text-3xl font-bold text-blue-600">
+      <CheckCircle className="mx-auto text-green-500" />
+      <div className="text-3xl font-bold text-blue-600">
         {counters.product}%
       </div>
-      <p className="text-xs sm:text-sm text-gray-600">Product Availability</p>
+      <p className="text-gray-600">Product Availability</p>
     </div>
 
     <div>
-      <Zap className="mx-auto text-yellow-500 h-5 w-5 sm:h-6 sm:w-6" />
-      <div className="text-xl sm:text-2xl md:text-3xl font-bold text-blue-600">
+      <Zap className="mx-auto text-yellow-500" />
+      <div className="text-3xl font-bold text-blue-600">
         {counters.efficiency}%
       </div>
-      <p className="text-xs sm:text-sm text-gray-600">Work Efficiency</p>
+      <p className="text-gray-600">Work Efficiency</p>
     </div>
   </div>
 </section> 
 
 {/* ================= OUR SERVICES ================= */}
-<section className="py-16 md:py-24 bg-slate-50">
-  <div className="max-w-7xl mx-auto px-4 sm:px-6">
-    <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-10 md:mb-14 text-slate-900">
+<section className="py-24 bg-slate-50">
+  <div className="max-w-7xl mx-auto px-6">
+    <h2 className="text-4xl font-bold text-center mb-14 text-slate-900">
       OUR SERVICES
     </h2>
 
-    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-8">
+    <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
       
       {/* Insurance Services */}
       <a
         href="/categories/insurance-services"
-        className="group bg-white rounded-xl md:rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden hover:-translate-y-1"
+        className="group bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden hover:-translate-y-1"
       >
-        <div className="h-28 sm:h-32 md:h-44 overflow-hidden">
+        <div className="h-44 overflow-hidden">
           <img
             src="/insurance.jpg"
             alt="Insurance Services"
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
         </div>
-        <div className="p-3 sm:p-4 md:p-6">
-          <h3 className="text-xs sm:text-sm md:text-lg font-bold text-slate-900 mb-1 sm:mb-2 md:mb-3 group-hover:text-blue-600 line-clamp-2">
+        <div className="p-6">
+          <h3 className="text-lg font-bold text-slate-900 mb-3 group-hover:text-blue-600">
             Insurance Services
           </h3>
-          <p className="text-[10px] sm:text-xs md:text-sm text-gray-600 leading-relaxed line-clamp-3 md:line-clamp-none">
+          <p className="text-sm text-gray-600 leading-relaxed">
             Financial protection against health risks, accidents, property
             damage, and business losses.
           </p>
@@ -308,20 +308,20 @@ useEffect(() => {
       {/* Loan Services */}
       <a
         href="/categories/loan-services"
-        className="group bg-white rounded-xl md:rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden hover:-translate-y-1"
+        className="group bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden hover:-translate-y-1"
       >
-        <div className="h-28 sm:h-32 md:h-44 overflow-hidden">
+        <div className="h-44 overflow-hidden">
           <img
             src="/loan.jpg"
             alt="Loan Services"
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
         </div>
-        <div className="p-3 sm:p-4 md:p-6">
-          <h3 className="text-xs sm:text-sm md:text-lg font-bold text-slate-900 mb-1 sm:mb-2 md:mb-3 group-hover:text-blue-600 line-clamp-2">
+        <div className="p-6">
+          <h3 className="text-lg font-bold text-slate-900 mb-3 group-hover:text-blue-600">
             Loan Services
           </h3>
-          <p className="text-[10px] sm:text-xs md:text-sm text-gray-600 leading-relaxed line-clamp-3 md:line-clamp-none">
+          <p className="text-sm text-gray-600 leading-relaxed">
             Personal and business loans with flexible repayment options and
             fast approvals.
           </p>
@@ -331,20 +331,20 @@ useEffect(() => {
       {/* Setu Services */}
       <a
         href="/categories/setu-services"
-        className="group bg-white rounded-xl md:rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden hover:-translate-y-1"
+        className="group bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden hover:-translate-y-1"
       >
-        <div className="h-28 sm:h-32 md:h-44 overflow-hidden">
+        <div className="h-44 overflow-hidden">
           <img
             src="/setu.jpg"
             alt="Setu Services"
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
         </div>
-        <div className="p-3 sm:p-4 md:p-6">
-          <h3 className="text-xs sm:text-sm md:text-lg font-bold text-slate-900 mb-1 sm:mb-2 md:mb-3 group-hover:text-blue-600 line-clamp-2">
+        <div className="p-6">
+          <h3 className="text-lg font-bold text-slate-900 mb-3 group-hover:text-blue-600">
             Setu Services
           </h3>
-          <p className="text-[10px] sm:text-xs md:text-sm text-gray-600 leading-relaxed line-clamp-3 md:line-clamp-none">
+          <p className="text-sm text-gray-600 leading-relaxed">
             Digital financial services including APIs for payments, banking,
             lending, and insurance.
           </p>
@@ -354,20 +354,20 @@ useEffect(() => {
       {/* Online Rent Agreement */}
       <a
         href="/categories/online-rent-agreement"
-        className="group bg-white rounded-xl md:rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden hover:-translate-y-1"
+        className="group bg-white rounded-2xl border border-slate-200 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden hover:-translate-y-1"
       >
-        <div className="h-28 sm:h-32 md:h-44 overflow-hidden">
+        <div className="h-44 overflow-hidden">
           <img
             src="/rent-agreement.jpg"
             alt="Online Rent Agreement"
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
         </div>
-        <div className="p-3 sm:p-4 md:p-6">
-          <h3 className="text-xs sm:text-sm md:text-lg font-bold text-slate-900 mb-1 sm:mb-2 md:mb-3 group-hover:text-blue-600 line-clamp-2">
+        <div className="p-6">
+          <h3 className="text-lg font-bold text-slate-900 mb-3 group-hover:text-blue-600">
             Online Rent Agreement
           </h3>
-          <p className="text-[10px] sm:text-xs md:text-sm text-gray-600 leading-relaxed line-clamp-3 md:line-clamp-none">
+          <p className="text-sm text-gray-600 leading-relaxed">
             Digitally created and legally valid rental agreements with doorstep
             service availability.
           </p>
@@ -381,41 +381,41 @@ useEffect(() => {
  {/* Brands Section with Stats and Icons */}
       <section id="brands-section" className="py-12 sm:py-16 md:py-24 bg-gradient-to-br from-gray-50 to-blue-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold text-center mb-2 md:mb-4 text-black">OUR BRANDS</h2>
-          <p className="text-gray-600 text-center text-xs sm:text-sm md:text-base mb-6 md:mb-8">Partnered with leading financial institutions</p>
+          <h2 className="text-2xl sm:text-3xl font-bold text-center mb-4 text-black">OUR BRANDS</h2>
+          <p className="text-gray-600 text-center text-sm sm:text-base mb-8">Partnered with leading financial institutions</p>
           
           {/* Updated Brand Logos with white background, shadows, and hover effects */}
-          <div className="flex flex-wrap justify-center gap-3 sm:gap-4 md:gap-8 items-center mb-10 md:mb-16">
+          <div className="flex flex-wrap justify-center gap-4 sm:gap-6 md:gap-8 items-center mb-12 sm:mb-16">
             {brands.map((brand) => (
               <div 
                 key={brand}
                 className="group relative w-[45%] sm:w-auto"
               >
-                <div className="bg-white p-3 sm:p-4 md:p-6 rounded-lg md:rounded-xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-200 group-hover:border-blue-200 group-hover:-translate-y-1">
-                  <div className="relative w-16 h-8 sm:w-20 sm:h-10 md:w-24 md:h-12 lg:w-32 lg:h-16 flex items-center justify-center">
+                <div className="bg-white p-4 sm:p-6 rounded-xl shadow-md hover:shadow-xl transition-all duration-300 border border-gray-200 group-hover:border-blue-200 group-hover:-translate-y-1">
+                  <div className="relative w-24 h-12 sm:w-32 sm:h-16 flex items-center justify-center">
                     <Image
                       src={brand}
                       alt="Brand Logo"
                       width={96}
                       height={48}
                       className="object-contain transition-all duration-300 group-hover:scale-105"
-                      sizes="(max-width: 640px) 64px, (max-width: 768px) 80px, 96px"
+                      sizes="(max-width: 640px) 96px, 128px"
                     />
                   </div>
                 </div>
                 {/* Optional: Add a subtle glow effect on hover */}
-                <div className="absolute inset-0 rounded-lg md:rounded-xl bg-blue-100 opacity-0 group-hover:opacity-20 blur-md transition-opacity duration-300 -z-10"></div>
+                <div className="absolute inset-0 rounded-xl bg-blue-100 opacity-0 group-hover:opacity-20 blur-md transition-opacity duration-300 -z-10"></div>
               </div>
             ))}
           </div>
           
           {/* Brand Stats Grid with Icons */}
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-8 mt-6 md:mt-12">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 py-9 md:gap-8 mt-8 sm:mt-12">
             {statsData.map((stat, index) => (
-              <div key={index} className="text-center bg-white p-3 sm:p-4 md:p-6 lg:p-8 rounded-lg md:rounded-xl shadow hover:shadow-lg transition">
-                <div className="flex flex-col sm:flex-row sm:items-center justify-center gap-1 sm:gap-2 md:gap-4 mb-1 sm:mb-2 md:mb-3">
-                  <stat.icon className="text-blue-500 mx-auto sm:mx-0 h-4 w-4 sm:h-5 sm:w-5 md:h-6 md:w-6 lg:h-8 lg:w-8" />
-                  <div className="text-base sm:text-lg md:text-2xl lg:text-4xl font-bold text-blue-600">
+              <div key={index} className="text-center bg-white p-4 sm:p-6 md:p-8 rounded-xl shadow hover:shadow-lg transition">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-center gap-2 sm:gap-3 md:gap-4 mb-2 sm:mb-3">
+                  <stat.icon className="text-blue-500 mx-auto sm:mx-0 h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8" />
+                  <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-blue-600">
                     {index === 0 && brandCounters.years}
                     {index === 1 && brandCounters.team}
                     {index === 2 && brandCounters.clients.toLocaleString()}
@@ -423,7 +423,7 @@ useEffect(() => {
                     <span className="text-blue-400">{stat.suffix}</span>
                   </div>
                 </div>
-                <div className="text-gray-600 font-medium text-[10px] sm:text-xs md:text-sm lg:text-base">{stat.label}</div>
+                <div className="text-gray-600 font-medium text-xs sm:text-sm md:text-base">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -431,94 +431,108 @@ useEffect(() => {
       </section>
 
       {/* -------------------- LATEST UPDATES (DB) -------------------- */}
-      <section className="py-16 md:py-24 bg-white">
-  <div className="max-w-7xl mx-auto px-4 sm:px-6">
-    <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-10 md:mb-16 tracking-tight text-slate-900">
+    <section className="py-24 bg-white">
+  <div className="max-w-7xl mx-auto px-4">
+    <h2 className="text-4xl font-bold text-center mb-16 tracking-tight text-slate-900">
       Latest Updates
     </h2>
 
     {loadingBlogs ? (
-      <div className="flex justify-center items-center h-48 md:h-64">
-        <p className="text-gray-400 animate-pulse text-sm md:text-base">Loading updates...</p>
+      <div className="flex justify-center items-center h-64">
+        <p className="text-gray-400 animate-pulse">Loading updates...</p>
       </div>
     ) : blogs.length === 0 ? (
-      <p className="text-center text-gray-500 py-8 md:py-12 text-sm md:text-base">No updates available at the moment.</p>
+      <p className="text-center text-gray-500 py-12">
+        No updates available at the moment.
+      </p>
     ) : (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
         {blogs.slice(0, 3).map((blog) => {
-         const imageSrc = blog.image
-  ? blog.image.startsWith("/")
-    ? blog.image
-    : `/${blog.image}`
-  : "/blogs/default.jpg";
+          
+          /* ✅ Base64 + Normal Path Support */
+          const imageSrc =
+            blog.image?.startsWith("data:")
+              ? blog.image
+              : blog.image?.startsWith("/")
+              ? blog.image
+              : blog.image
+              ? `/${blog.image}`
+              : "/blogs/default.jpg";
 
           return (
             <div
               key={blog.id}
-              className="group flex flex-col bg-white rounded-xl md:rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden"
+              className="group flex flex-col bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden"
             >
               {/* Image Container */}
-              <div className="relative h-48 sm:h-52 md:h-60 w-full overflow-hidden">
-                <Image
-                  src={imageSrc}
-                  alt={blog.title}
-                  fill
-                  className="object-cover transition-transform duration-500 group-hover:scale-105"
-                />
+              <div className="relative h-60 w-full overflow-hidden">
+                {imageSrc.startsWith("data:") ? (
+                  /* Base64 must use normal img */
+                  <img
+                    src={imageSrc}
+                    alt={blog.title}
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                ) : (
+                  <Image
+                    src={imageSrc}
+                    alt={blog.title}
+                    fill
+                    className="object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                )}
               </div>
 
-             {/* Content */}
-<div className="p-5 md:p-8 flex flex-col flex-grow">
-  <h3 className="text-base sm:text-lg md:text-xl font-bold mb-1 md:mb-2 text-slate-900 leading-snug group-hover:text-blue-600 transition-colors">
-    {blog.title}
-  </h3>
+              {/* Content */}
+              <div className="p-8 flex flex-col flex-grow">
+                <h3 className="text-xl font-bold mb-2 text-slate-900 leading-snug group-hover:text-blue-600 transition-colors">
+                  {blog.title}
+                </h3>
 
-  {/* Date below title */}
-  {blog.created_at && (
-    <p className="text-[10px] sm:text-xs text-gray-400 mb-2 md:mb-3">
-      Published on{" "}
-      {new Date(blog.created_at).toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-        year: "numeric",
-      })}
-    </p>
-  )}
+                {blog.created_at && (
+                  <p className="text-xs text-gray-400 mb-3">
+                    Published on{" "}
+                    {new Date(blog.created_at).toLocaleDateString("en-US", {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    })}
+                  </p>
+                )}
 
-  <p className="text-gray-500 text-xs sm:text-sm leading-relaxed line-clamp-3 mb-4 md:mb-6">
-    {blog.description}
-  </p>
+                <p className="text-gray-500 text-sm leading-relaxed line-clamp-3 mb-6">
+                  {blog.description}
+                </p>
 
-  {/* Bottom Action */}
-<div className="mt-auto pt-2 md:pt-4">
-  {blog.slug ? (
-    <Link
-      href={`/about/${blog.slug}`}
-      className="inline-flex items-center text-xs sm:text-sm font-bold text-blue-600 hover:text-blue-800 transition-colors"
-    >
-      Read More
-      <svg
-        className="w-3 h-3 sm:w-4 sm:h-4 ml-1"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-      >
-        <path
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          strokeWidth="2"
-          d="M17 8l4 4m0 0l-4 4m4-4H3"
-        />
-      </svg>
-    </Link>
-  ) : (
-    <span className="text-[10px] sm:text-xs text-gray-400">
-      Blog link unavailable
-    </span>
-  )}
-</div>
-
-             </div>
+                {/* Bottom Action */}
+                <div className="mt-auto pt-4">
+                  {blog.slug ? (
+                    <Link
+                      href={`/about/${blog.slug}`}
+                      className="inline-flex items-center text-sm font-bold text-blue-600 hover:text-blue-800 transition-colors"
+                    >
+                      Read More
+                      <svg
+                        className="w-4 h-4 ml-1"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth="2"
+                          d="M17 8l4 4m0 0l-4 4m4-4H3"
+                        />
+                      </svg>
+                    </Link>
+                  ) : (
+                    <span className="text-xs text-gray-400">
+                      Blog link unavailable
+                    </span>
+                  )}
+                </div>
+              </div>
             </div>
           );
         })}
@@ -526,6 +540,7 @@ useEffect(() => {
     )}
   </div>
 </section>
+
     </main>
   );
 }

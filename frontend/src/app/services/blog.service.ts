@@ -1,6 +1,8 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-/* BLOG CARDS */
+/* =========================================================
+   BLOG CARDS
+========================================================= */
 export const getBlogs = async () => {
   try {
     if (!API_URL) {
@@ -9,6 +11,10 @@ export const getBlogs = async () => {
     }
 
     const res = await fetch(`${API_URL}/api/blogs`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
       cache: "no-store",
     });
 
@@ -17,14 +23,20 @@ export const getBlogs = async () => {
       return [];
     }
 
-    return await res.json();
+    const data = await res.json();
+
+    return Array.isArray(data) ? data : [];
+
   } catch (error) {
     console.error("❌ getBlogs error:", error);
     return [];
   }
 };
 
-/* BLOG DETAIL */
+
+/* =========================================================
+   BLOG DETAIL
+========================================================= */
 export const getBlogBySlug = async (slug: string) => {
   try {
     if (!API_URL) {
@@ -32,7 +44,16 @@ export const getBlogBySlug = async (slug: string) => {
       return null;
     }
 
+    if (!slug) {
+      console.warn("⚠️ Slug is missing");
+      return null;
+    }
+
     const res = await fetch(`${API_URL}/api/blogs/${slug}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
       cache: "no-store",
     });
 
@@ -45,7 +66,10 @@ export const getBlogBySlug = async (slug: string) => {
       return null;
     }
 
-    return await res.json();
+    const data = await res.json();
+
+    return data || null;
+
   } catch (error) {
     console.error("❌ getBlogBySlug error:", error);
     return null;

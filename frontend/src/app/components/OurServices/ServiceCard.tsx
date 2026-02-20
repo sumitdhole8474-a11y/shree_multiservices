@@ -7,15 +7,21 @@ type ServiceCardProps = {
 };
 
 export default function ServiceCard({ title, image, slug }: ServiceCardProps) {
-  // Check if title is too long (more than 20 characters)
   const isTitleLong = title.length > 20;
 
+  // 🔥 BASE64 SAFE HANDLING
+  const formattedImage =
+    image?.startsWith("data:image/")
+      ? image
+      : `data:image/jpeg;base64,${image}`;
+
   return (
-    <Link href={`/services-pages/${slug}`} className="block group aspect-square">
+    <Link href={`/services-pages/${slug}`} className="block group w-full">
       <div className="
         relative 
         w-full 
-        h-[265px] 
+        aspect-[4/5]
+        sm:h-[265px] 
         cursor-pointer 
         rounded-2xl 
         border 
@@ -38,12 +44,12 @@ export default function ServiceCard({ title, image, slug }: ServiceCardProps) {
         before:transition-opacity 
         before:duration-500 
         group-hover:before:opacity-100
+        flex flex-col
       ">
-        {/* Image Container with Overlay */}
-       <div className="relative h-[220px] w-full overflow-hidden">
-
+        {/* Image Container */}
+        <div className="relative flex-1 w-full overflow-hidden">
           <img
-            src={image}
+            src={formattedImage}  
             alt={title}
             className="
               h-full 
@@ -55,7 +61,7 @@ export default function ServiceCard({ title, image, slug }: ServiceCardProps) {
               group-hover:brightness-110
             "
           />
-          {/* Blue overlay on hover */}
+
           <div className="
             absolute 
             inset-0 
@@ -65,8 +71,7 @@ export default function ServiceCard({ title, image, slug }: ServiceCardProps) {
             transition-opacity 
             duration-300
           " />
-          
-          {/* Shine Effect */}
+
           <div className="
             absolute 
             -inset-full 
@@ -85,12 +90,13 @@ export default function ServiceCard({ title, image, slug }: ServiceCardProps) {
             group-hover:left-full
           " />
         </div>
-        
+
         {/* Content Area */}
-       <div className="relative h-[40px] p-3 flex items-center justify-center bg-gradient-to-b from-white to-gray-50">
+        <div className="relative h-[34px] sm:h-[42px] flex items-center justify-center bg-white">
           <div className="w-full text-center">
             <h4 className="
-              text-sm 
+              text-[11px] 
+              xs:text-[13px]
               sm:text-base 
               font-bold 
               text-gray-800 
@@ -98,19 +104,14 @@ export default function ServiceCard({ title, image, slug }: ServiceCardProps) {
               duration-300 
               group-hover:text-blue-600
               px-2
-              line-clamp-2
-              min-h-[3rem]
-              flex items-center justify-center
-              leading-tight
-              md:leading-snug
+              truncate
+              leading-none
             ">
-              {/* Show title with ellipsis if too long */}
               {isTitleLong ? `${title.substring(0, 18)}...` : title}
             </h4>
           </div>
         </div>
-        
-        {/* Corner Accents */}
+
         <div className="
           absolute 
           top-0 
@@ -126,6 +127,7 @@ export default function ServiceCard({ title, image, slug }: ServiceCardProps) {
           transition-opacity 
           duration-500
         " />
+
         <div className="
           absolute 
           bottom-0 
