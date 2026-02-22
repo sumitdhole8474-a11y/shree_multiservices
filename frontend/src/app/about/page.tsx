@@ -303,10 +303,11 @@ useEffect(() => {
 {/* ================= OUR SERVICES ================= */}
 <section className="py-14 md:py-24 bg-slate-50">
   <div className="max-w-7xl mx-auto px-6">
-    <h2 className="text-4xl font-bold text-center mb-14 text-slate-900">
-      OUR SERVICES
-    </h2>
-
+  <div className="flex justify-center mb-12">
+  <span className="bg-blue-600 text-white text-lg md:text-xl font-semibold px-6 py-3 rounded-full shadow-md">
+    Our Services
+  </span>
+</div>
     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
 
       {/* Insurance Services */}
@@ -426,9 +427,11 @@ useEffect(() => {
   <div className="max-w-7xl mx-auto px-4 sm:px-6">
 
     {/* Heading */}
-    <h2 className="text-2xl sm:text-3xl font-bold text-center mb-3 text-black">
-      OUR BRANDS
-    </h2>
+ <div className="flex justify-center mb-4">
+  <span className="bg-blue-600 text-white text-lg md:text-xl font-semibold px-6 py-3 rounded-full shadow-md">
+    Our Brands
+  </span>
+</div>
     <p className="text-gray-600 text-center text-sm sm:text-base mb-8 sm:mb-10">
       Partnered with leading financial institutions
     </p>
@@ -502,9 +505,11 @@ useEffect(() => {
       {/* -------------------- LATEST UPDATES (DB) -------------------- */}
     <section className="py-24 bg-white">
   <div className="max-w-7xl mx-auto px-4">
-    <h2 className="text-4xl font-bold text-center mb-16 tracking-tight text-slate-900">
-      Latest Updates
-    </h2>
+  <div className="flex justify-center mb-12">
+  <span className="bg-blue-600 text-white text-lg md:text-xl font-semibold px-6 py-3 rounded-full shadow-md">
+    Latest Updates
+  </span>
+</div>
 
     {loadingBlogs ? (
       <div className="flex justify-center items-center h-64">
@@ -576,10 +581,8 @@ useEffect(() => {
                 {/* Bottom Action */}
                <div className="mt-auto pt-4 flex items-center justify-between">
   
-  {/* Share Button (Left Side) */}
-  <ShareWidget title={blog.title} />
-
-  {/* Read More (Right Side) */}
+ 
+  {/* Read More (Left Side) */}
   {blog.slug ? (
     <Link
       href={`/about/${blog.slug}`}
@@ -605,6 +608,9 @@ useEffect(() => {
       Blog link unavailable
     </span>
   )}
+   {/* Share Button (Right Side) */}
+  <ShareWidget title={blog.title} />
+
 </div>
               </div>
             </div>

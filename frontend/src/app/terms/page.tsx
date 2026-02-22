@@ -1,19 +1,5 @@
 "use client";
 
-import { 
-  FileCheck, 
-  Shield, 
-  Copyright, 
-  FileText, 
-  AlertTriangle, 
-  BadgeAlert, 
-  Scale, 
-  RefreshCw, 
-  Mail, 
-  Phone,
-  ArrowRight
-} from "lucide-react";
-
 // 👇 The keyword 'export default' MUST be here for Next.js to work
 export default function TermsAndConditionsPage() {
   return (
@@ -26,7 +12,6 @@ export default function TermsAndConditionsPage() {
       {/* HERO SECTION */}
       <section className="relative pt-24 pb-12 text-center max-w-4xl mx-auto px-6">
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs font-bold uppercase tracking-widest mb-6">
-          <FileCheck size={14} />
           Legal Information
         </div>
         <h1 className="text-4xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-6">
@@ -55,26 +40,26 @@ export default function TermsAndConditionsPage() {
 
             {/* 1. Acceptance */}
             <div className="flex gap-6 group">
-              <div className="flex-shrink-0 w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
-                <FileCheck size={24} />
+              <div className="flex-shrink-0 w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 text-blue-600 flex items-center justify-center font-bold text-lg border border-blue-100">
+                1
               </div>
               <div>
-                <h2 className="text-xl font-bold text-slate-900 mb-3">1. Acceptance of Terms</h2>
+                <h2 className="text-xl font-bold text-slate-900 mb-3">Acceptance of Terms</h2>
                 <p className="text-slate-600 leading-relaxed text-sm md:text-base">
                   By accessing or using our website and services, you agree to comply with and be bound by these Terms and Conditions. If you do not agree with these terms, please do not use our services or website.
                 </p>
               </div>
             </div>
 
-            <div className="h-px w-full bg-slate-100" />
+            <div className="h-px w-full bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
 
             {/* 2. Use of Services */}
             <div className="flex gap-6 group">
-              <div className="flex-shrink-0 w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
-                <Shield size={24} />
+              <div className="flex-shrink-0 w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 text-blue-600 flex items-center justify-center font-bold text-lg border border-blue-100">
+                2
               </div>
               <div>
-                <h2 className="text-xl font-bold text-slate-900 mb-3">2. Use of Services</h2>
+                <h2 className="text-xl font-bold text-slate-900 mb-3">Use of Services</h2>
                 <p className="text-slate-600 mb-4 text-sm md:text-base">
                   Our services are intended for lawful use only. By using our services, you agree not to:
                 </p>
@@ -86,7 +71,7 @@ export default function TermsAndConditionsPage() {
                     "Infringe rights of others"
                   ].map((item, i) => (
                     <li key={i} className="flex items-center gap-2 text-sm text-slate-600 bg-slate-50 px-3 py-2 rounded-lg">
-                        <div className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+                        <div className="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-blue-400 to-indigo-400" />
                         {item}
                     </li>
                   ))}
@@ -94,44 +79,46 @@ export default function TermsAndConditionsPage() {
               </div>
             </div>
 
-            <div className="h-px w-full bg-slate-100" />
+            <div className="h-px w-full bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
 
             {/* 3. Intellectual Property */}
             <div className="flex gap-6 group">
-              <div className="flex-shrink-0 w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
-                <Copyright size={24} />
+              <div className="flex-shrink-0 w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 text-blue-600 flex items-center justify-center font-bold text-lg border border-blue-100">
+                3
               </div>
               <div>
-                <h2 className="text-xl font-bold text-slate-900 mb-3">3. Intellectual Property</h2>
+                <h2 className="text-xl font-bold text-slate-900 mb-3">Intellectual Property</h2>
                 <p className="text-slate-600 leading-relaxed text-sm md:text-base">
                   All content, materials, trademarks, and logos on our website are the property of <strong className="text-slate-900">Shree Multiservices</strong> or its licensors. You are not permitted to use, reproduce, or distribute any content from our website without prior written consent.
                 </p>
               </div>
             </div>
 
-            <div className="h-px w-full bg-slate-100" />
+            <div className="h-px w-full bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
 
             {/* 4. Service Descriptions */}
             <div className="flex gap-6 group">
-              <div className="flex-shrink-0 w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-colors duration-300">
-                <FileText size={24} />
+              <div className="flex-shrink-0 w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-50 to-indigo-50 text-blue-600 flex items-center justify-center font-bold text-lg border border-blue-100">
+                4
               </div>
               <div>
-                <h2 className="text-xl font-bold text-slate-900 mb-3">4. Service Descriptions</h2>
+                <h2 className="text-xl font-bold text-slate-900 mb-3">Service Descriptions</h2>
                 <p className="text-slate-600 leading-relaxed text-sm md:text-base">
                   We strive to provide accurate information regarding government document services and related offerings. However, we do not warrant that descriptions, pricing, or other content are free from errors or omissions. We reserve the right to modify information at any time without notice.
                 </p>
               </div>
             </div>
 
-            <div className="h-px w-full bg-slate-100" />
+            <div className="h-px w-full bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
 
             {/* 5. Liability & 6. Warranty (Grid) */}
             <div className="grid md:grid-cols-2 gap-12">
                 <div className="space-y-4">
                     <div className="flex items-center gap-3 mb-2">
-                        <AlertTriangle className="text-amber-500" />
-                        <h2 className="text-xl font-bold text-slate-900">5. Limitation of Liability</h2>
+                        <div className="w-8 h-8 rounded-lg bg-amber-50 border border-amber-100 flex items-center justify-center font-bold text-amber-600">
+                          5
+                        </div>
+                        <h2 className="text-xl font-bold text-slate-900">Limitation of Liability</h2>
                     </div>
                     <p className="text-slate-600 text-sm leading-relaxed">
                         Shree Multiservices will not be liable for any direct, indirect, incidental, consequential, or punitive damages arising from the use of our services, including inability to use services, unauthorized access to data, or third-party conduct.
@@ -140,8 +127,10 @@ export default function TermsAndConditionsPage() {
 
                 <div className="space-y-4">
                     <div className="flex items-center gap-3 mb-2">
-                        <BadgeAlert className="text-amber-500" />
-                        <h2 className="text-xl font-bold text-slate-900">6. Warranty Disclaimer</h2>
+                        <div className="w-8 h-8 rounded-lg bg-amber-50 border border-amber-100 flex items-center justify-center font-bold text-amber-600">
+                          6
+                        </div>
+                        <h2 className="text-xl font-bold text-slate-900">Warranty Disclaimer</h2>
                     </div>
                     <p className="text-slate-600 text-sm leading-relaxed">
                         We do not guarantee that our services will be uninterrupted, error-free, or completely secure. Any warranties will be provided only if applicable to the specific service.
@@ -149,14 +138,16 @@ export default function TermsAndConditionsPage() {
                 </div>
             </div>
 
-            <div className="h-px w-full bg-slate-100" />
+            <div className="h-px w-full bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
 
             {/* 7. Governing Law & 8. Changes (Grid) */}
             <div className="grid md:grid-cols-2 gap-12">
                 <div className="space-y-4">
                      <div className="flex items-center gap-3 mb-2">
-                        <Scale className="text-blue-600" />
-                        <h2 className="text-xl font-bold text-slate-900">7. Governing Law</h2>
+                        <div className="w-8 h-8 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-center font-bold text-blue-600">
+                          7
+                        </div>
+                        <h2 className="text-xl font-bold text-slate-900">Governing Law</h2>
                     </div>
                     <p className="text-slate-600 text-sm leading-relaxed">
                         These Terms and Conditions are governed by and construed in accordance with the laws of India. Any disputes arising from the use of our website or services will be subject to the jurisdiction of Indian courts.
@@ -165,8 +156,10 @@ export default function TermsAndConditionsPage() {
 
                 <div className="space-y-4">
                     <div className="flex items-center gap-3 mb-2">
-                        <RefreshCw className="text-blue-600" />
-                        <h2 className="text-xl font-bold text-slate-900">8. Changes to Terms</h2>
+                        <div className="w-8 h-8 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-center font-bold text-blue-600">
+                          8
+                        </div>
+                        <h2 className="text-xl font-bold text-slate-900">Changes to Terms</h2>
                     </div>
                     <p className="text-slate-600 text-sm leading-relaxed">
                         We reserve the right to update or modify these Terms and Conditions at any time. Changes will be posted on our website, and continued use of our services constitutes acceptance of the updated terms.
@@ -175,42 +168,55 @@ export default function TermsAndConditionsPage() {
             </div>
 
             {/* 9. Contact Box */}
-            <div className="bg-slate-900 rounded-3xl p-8 relative overflow-hidden text-white">
+            <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-3xl p-8 relative overflow-hidden text-white">
                 <div className="absolute top-0 right-0 w-64 h-64 bg-blue-600/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+                <div className="absolute bottom-0 left-0 w-64 h-64 bg-indigo-600/20 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
                 
                 <div className="relative z-10">
-                    <h2 className="text-2xl font-bold mb-6 flex items-center gap-3">
-                        9. Contact Us <ArrowRight size={20} className="text-blue-400"/>
-                    </h2>
+                    <div className="flex items-center gap-3 mb-6">
+                        <div className="w-10 h-10 rounded-xl bg-white/10 border border-white/20 flex items-center justify-center font-bold text-lg backdrop-blur-sm">
+                            9
+                        </div>
+                        <h2 className="text-2xl font-bold">Contact Us</h2>
+                    </div>
+                    
                     <p className="text-slate-400 mb-8 max-w-lg">
                         If you have any questions or concerns regarding these Terms and Conditions, please contact us directly.
                     </p>
 
                     <div className="flex flex-col sm:flex-row gap-4">
-                        <div className="flex items-center gap-4 bg-white/10 border border-white/5 rounded-2xl p-4 backdrop-blur-sm hover:bg-white/15 transition-colors">
-                            <div className="p-2 bg-blue-600 rounded-lg">
-                                <Mail size={20} className="text-white" />
+                        <div className="flex-1 flex items-center gap-4 bg-white/10 border border-white/5 rounded-2xl p-4 backdrop-blur-sm hover:bg-white/15 transition-all duration-300 hover:scale-105">
+                            <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center text-white font-bold shadow-lg">
+                                @
                             </div>
                             <div>
                                 <span className="block text-xs text-slate-400 uppercase tracking-widest font-bold">Email</span>
-                                <span className="text-sm font-medium">shreemulti44@gmail.com</span>
+                                <span className="text-sm font-medium text-white">shreemulti44@gmail.com</span>
                             </div>
                         </div>
 
-                         <div className="flex items-center gap-4 bg-white/10 border border-white/5 rounded-2xl p-4 backdrop-blur-sm hover:bg-white/15 transition-colors">
-                            <div className="p-2 bg-blue-600 rounded-lg">
-                                <Phone size={20} className="text-white" />
+                         <div className="flex-1 flex items-center gap-4 bg-white/10 border border-white/5 rounded-2xl p-4 backdrop-blur-sm hover:bg-white/15 transition-all duration-300 hover:scale-105">
+                            <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center text-white font-bold shadow-lg">
+                                📞
                             </div>
                             <div>
                                 <span className="block text-xs text-slate-400 uppercase tracking-widest font-bold">Phone</span>
-                                <span className="text-sm font-medium">9922145634</span>
+                                <span className="text-sm font-medium text-white">9922145634</span>
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
 
           </div>
+        </div>
+
+        {/* Footer Note */}
+        <div className="text-center mt-8">
+          <p className="text-sm text-slate-400">
+            © {new Date().getFullYear()} Shree Multiservices. All rights reserved.
+          </p>
         </div>
       </section>
     </main>
