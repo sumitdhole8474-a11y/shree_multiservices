@@ -28,52 +28,43 @@ export default async function CategoryPage({ params }: Props) {
   }
 
   return (
-    <section className="relative min-h-screen bg-slate-50 py-24">
-      {/* Decorative Background Glow */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[500px] bg-blue-100/50 blur-[100px] rounded-full pointer-events-none -z-10" />
+   <section className="relative min-h-screen bg-slate-50 py-16 md:py-24">
+  {/* Decorative Background Glow */}
+  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-4xl h-[400px] md:h-[500px] bg-blue-100/50 blur-[100px] rounded-full pointer-events-none -z-10" />
 
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
-        {/* 🔹 Header */}
-      {/* 🔹 Header - Option 1 */}
-<div className="text-center max-w-3xl mx-auto mb-20">
-  <h1 className="inline-block text-2xl md:text-3xl font-bold text-white bg-gradient-to-r from-blue-600 to-blue-700 rounded-full px-6 py-2 tracking-tight shadow-xl transform -rotate-1">
-    {category.title}
-  </h1>
-</div>
+  <div className="max-w-7xl mx-auto px-4 md:px-6 lg:px-8">
+    
+    {/* 🔹 Header */}
+    <div className="text-center max-w-3xl mx-auto mb-10 md:mb-20">
+      <h1 className="inline-block text-xl md:text-3xl font-bold text-white bg-gradient-to-r from-blue-600 to-blue-700 rounded-full px-5 md:px-6 py-2 tracking-tight shadow-xl transform -rotate-1">
+        {category.title}
+      </h1>
+    </div>
 
-        {/* 🔹 Services Grid */}
-        {services.length > 0 ? (
-          <div className="
-            grid
-            grid-cols-2
-            sm:grid-cols-2
-            lg:grid-cols-4
-            xl:grid-cols-5
-            gap-6
-            lg:gap-8
-            place-items-center
-          ">
-            {services.map((service: any) => (
-              <ServiceCard
-                key={service.id}
-                title={service.title}
-                image={service.image_url}
-                slug={service.slug}
-              />
-            ))}
-          </div>
-        ) : (
-          /* 🔹 Empty State */
-          <div className="flex flex-col items-center justify-center py-24 border-2 border-dashed border-slate-200 rounded-3xl bg-white/50 text-center">
-            <div className="p-4 bg-slate-100 rounded-full mb-4">
-              <span className="text-2xl">📂</span>
-            </div>
-            <p className="text-slate-500 text-lg font-medium">
-              No services available for this category yet.
-            </p>
-          </div>
-        )}
+    {/* 🔹 Services Grid */}
+    {services.length > 0 ? (
+      <div
+        className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-5 gap-4  md:gap-6 lg:gap-8 place-items-center ">
+        {services.map((service: any) => (
+          <ServiceCard
+            key={service.id}
+            title={service.title}
+            image={service.image_url}
+            slug={service.slug}
+          />
+        ))}
       </div>
-    </section>
+    ) : (
+      <div className="flex flex-col items-center justify-center py-14 md:py-24 border-2 border-dashed border-slate-200 rounded-3xl bg-white/50 text-center">
+        <div className="p-4 bg-slate-100 rounded-full mb-4">
+          <span className="text-2xl">📂</span>
+        </div>
+        <p className="text-slate-500 text-lg font-medium">
+          No services available for this category yet.
+        </p>
+      </div>
+    )}
+  </div>
+</section>
   );
 }

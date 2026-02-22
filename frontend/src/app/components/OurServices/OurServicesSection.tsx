@@ -27,7 +27,7 @@ export default async function OurServices() {
           </h2>
 
           <p className="text-lg text-slate-600 leading-relaxed">
-            Explore our comprehensive range of solutions designed to simplify your business needs.
+            Explore our comprehensive range of solutions designed to simplify your Personal, Professional and Business needs.
           </p>
         </div>
 

@@ -36,10 +36,47 @@ export default function ReviewModal({ open, onClose }: any) {
 
   if (!open) return null;
 
+  /* =============================
+     CHARACTER COUNT (200 MAX)
+  ============================= */
+  const charCount = form.review.length;
+  const maxChars = 200;
+
+  const handleReviewChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const text = e.target.value;
+
+    if (text.length <= maxChars) {
+      setForm({ ...form, review: text });
+    }
+  };
+
+  /* =============================
+     MOBILE NUMBER HANDLER
+  ============================= */
+  const handleMobileChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const value = e.target.value.replace(/\D/g, "");
+    if (value.length <= 10) {
+      setForm({ ...form, mobile: value });
+    }
+  };
+
+  /* =============================
+     SUBMIT HANDLER
+  ============================= */
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     setLoading(true);
     setError("");
+
+    if (charCount > maxChars) {
+      setError("Review cannot exceed 200 characters");
+      setLoading(false);
+      return;
+    }
 
     try {
       const res = await fetch(`${API_URL}/api/reviews`, {
@@ -60,19 +97,10 @@ export default function ReviewModal({ open, onClose }: any) {
     }
   };
 
-  /* =============================
-     MOBILE NUMBER HANDLER
-  ============================= */
-  const handleMobileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.replace(/\D/g, "");
-    if (value.length <= 10) {
-      setForm({ ...form, mobile: value });
-    }
-  };
-
   return (
     <div className="fixed inset-0 z-[100] bg-black/50 flex items-center justify-center px-4">
       <div className="bg-white p-6 rounded-xl w-full max-w-lg relative z-[101]">
+
         {/* Close Button */}
         <button
           onClick={onClose}
@@ -102,9 +130,10 @@ export default function ReviewModal({ open, onClose }: any) {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4">
+
           <input
             placeholder="Name"
-            className="input"
+            className="input text-black caret-blue-600"
             value={form.name}
             onChange={(e) =>
               setForm({ ...form, name: e.target.value })
@@ -114,7 +143,7 @@ export default function ReviewModal({ open, onClose }: any) {
 
           <input
             placeholder="Mobile"
-            className="input"
+            className="input text-black caret-blue-600"
             value={form.mobile}
             onChange={handleMobileChange}
             inputMode="numeric"
@@ -123,15 +152,28 @@ export default function ReviewModal({ open, onClose }: any) {
             required
           />
 
-          <textarea
-            placeholder="Review"
-            className="input h-32"
-            value={form.review}
-            onChange={(e) =>
-              setForm({ ...form, review: e.target.value })
-            }
-            required
-          />
+          {/* ✅ Character Limited Review */}
+          <div>
+            <textarea
+              placeholder="Write your review "
+              className="input resize-none h-30 text-black caret-blue-600"
+              value={form.review}
+              onChange={handleReviewChange}
+              required
+            />
+
+            <div className="text-right text-xs mt-1">
+              <span
+                className={`${
+                  charCount >= maxChars
+                    ? "text-red-500"
+                    : "text-gray-400"
+                }`}
+              >
+                {charCount}/{maxChars} 
+              </span>
+            </div>
+          </div>
 
           {error && (
             <p className="text-red-500 text-sm">{error}</p>
@@ -140,7 +182,7 @@ export default function ReviewModal({ open, onClose }: any) {
           <button
             type="submit"
             disabled={loading}
-            className="btn-primary text-white w-full bg-blue-600 rounded-2xl py-2 disabled:opacity-70"
+            className="text-white w-full bg-blue-600 rounded-2xl py-2 disabled:opacity-70"
           >
             {loading ? "Submitting..." : "Submit Review"}
           </button>
