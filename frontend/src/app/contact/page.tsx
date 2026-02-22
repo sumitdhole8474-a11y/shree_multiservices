@@ -17,10 +17,12 @@ export default function ContactPage() {
   return (
     <main className="bg-white">
       {/* ================= HEADER ================= */}
-      <section className="pt-24 pb-12 text-center">
-        <h1 className="text-4xl font-bold text-blue-600 mb-4">
-          Contact Us
-        </h1>
+      <section className="pt-14 md:pt-24 pb-12 text-center">
+      <div className="flex justify-center mb-6">
+  <span className="bg-blue-600 text-white text-lg md:text-xl font-semibold px-6 py-3 rounded-full shadow-md">
+    Contact Us
+  </span>
+</div>
         <p className="text-gray-600 max-w-2xl mx-auto px-6">
           We're here to help! Reach out to our team with any questions or inquiries.
         </p>
@@ -108,40 +110,64 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* ================= SOCIAL MEDIA ================= */}
-      <section className="py-16 bg-gray-50 border-t border-gray-200">
-        <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">
-            Connect with Us
-          </h2>
-          
-          <div className="flex justify-center gap-4">
-            <a 
-              href="https://www.facebook.com/profile.php?id=61577000417529" 
-              className="w-12 h-12 flex items-center justify-center rounded-full bg-white hover:bg-gray-100 text-gray-600 border border-gray-200 transition-colors"
-              aria-label="Facebook"
-            >
-              <FontAwesomeIcon icon={faFacebook} className="text-xl" />
-            </a>
+    {/* ================= PREMIUM SOCIAL MEDIA ================= */}
+<section className="py-20 bg-gradient-to-br from-blue-50 via-white to-blue-100 relative overflow-hidden">
 
-            <a 
-              href="https://www.instagram.com/shreemultiservices_amravati?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" 
-              className="w-12 h-12 flex items-center justify-center rounded-full bg-white hover:bg-gray-100 text-gray-600 border border-gray-200 transition-colors"
-              aria-label="Instagram"
-            >
-              <FontAwesomeIcon icon={faInstagram} className="text-xl" />
-            </a>
+  {/* Soft Background Glow */}
+  <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-blue-200/40 blur-3xl rounded-full pointer-events-none -z-10" />
 
-            <a 
-              href="https://share.google/Zs2izB4g7h8GB72o2" 
-              className="w-12 h-12 flex items-center justify-center rounded-full bg-white hover:bg-gray-100 text-gray-600 border border-gray-200 transition-colors"
-              aria-label="Google"
-            >
-              <FontAwesomeIcon icon={faGoogle} className="text-xl" />
-            </a>
-          </div>
-        </div>
-      </section>
+  <div className="max-w-4xl mx-auto px-6 text-center">
+
+    {/* Section Badge Title */}
+    <div className="flex justify-center mb-6">
+      <span className="bg-blue-600 text-white text-lg md:text-xl font-semibold px-6 py-3 rounded-full shadow-md">
+        Connect With Us
+      </span>
+    </div>
+
+    <p className="text-gray-600 max-w-xl mx-auto mb-10">
+      Follow us on social media to stay updated with our latest services and announcements.
+    </p>
+
+    {/* Social Icons */}
+    <div className="flex justify-center gap-6">
+
+      {/* Facebook */}
+      <a
+        href="https://www.facebook.com/profile.php?id=61577000417529"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="w-14 h-14 flex items-center justify-center rounded-full bg-white shadow-lg border border-blue-100 text-blue-600 hover:bg-blue-600 hover:text-white hover:scale-110 transition-all duration-300"
+        aria-label="Facebook"
+      >
+        <FontAwesomeIcon icon={faFacebook} className="text-2xl" />
+      </a>
+
+      {/* Instagram */}
+      <a
+        href="https://www.instagram.com/shreemultiservices_amravati?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+        target="_blank"
+        rel="noopener noreferrer"
+        className="w-14 h-14 flex items-center justify-center rounded-full bg-white shadow-lg border border-blue-100 text-pink-600 hover:bg-gradient-to-br hover:from-pink-500 hover:to-orange-500 hover:text-white hover:scale-110 transition-all duration-300"
+        aria-label="Instagram"
+      >
+        <FontAwesomeIcon icon={faInstagram} className="text-2xl" />
+      </a>
+
+      {/* Google */}
+      <a
+        href="https://share.google/Zs2izB4g7h8GB72o2"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="w-14 h-14 flex items-center justify-center rounded-full bg-white shadow-lg border border-blue-100 text-red-500 hover:bg-red-500 hover:text-white hover:scale-110 transition-all duration-300"
+        aria-label="Google"
+      >
+        <FontAwesomeIcon icon={faGoogle} className="text-2xl" />
+      </a>
+
+    </div>
+  </div>
+</section>
     </main>
   );
 }

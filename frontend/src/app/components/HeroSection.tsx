@@ -23,8 +23,7 @@ export default function HeroSection() {
 
   return (
     <>
-      <section className="relative min-h-screen flex items-start md:items-center bg-gradient-to-br from-yellow-50 to-white overflow-hidden pt-20 md:pt-0">
-
+<section className="relative w-full flex items-center bg-gradient-to-br from-yellow-50 to-white overflow-hidden pt-16 pb-10 md:pt-28 md:pb-20">
         <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-10 items-start">
 
           {/* IMAGE — FIRST ON MOBILE, RIGHT ON DESKTOP */}

@@ -17,20 +17,7 @@ export default function ServiceCard({ title, image, slug }: ServiceCardProps) {
 
   return (
     <Link href={`/services-pages/${slug}`} className="block group w-full">
-      <div className="
-        relative 
-        w-full 
-        aspect-[4/5]
-        sm:h-[265px] 
-        cursor-pointer 
-        rounded-2xl 
-        border 
-        border-gray-200 
-        bg-white 
-        shadow-lg 
-        overflow-hidden 
-        transition-all 
-        duration-300 
+      <div className="relative  w-full  aspect-[4/5] sm:h-[265px]  cursor-pointer   rounded-2xl  border  border-gray-200 bg-white  shadow-lg  overflow-hidden transition-all  duration-300 
         group-hover:shadow-2xl 
         group-hover:-translate-y-2
         group-hover:border-blue-100

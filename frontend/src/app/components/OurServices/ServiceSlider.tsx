@@ -42,8 +42,7 @@ export default function ServiceSlider({ services }: ServiceSliderProps) {
   };
 
   return (
-    <div className="relative select-none w-full px-4 sm:px-0">
-      
+<div className="relative select-none w-full px-1 sm:px-0">      
       {/* Left Arrow */}
       {showLeft && (
         <button

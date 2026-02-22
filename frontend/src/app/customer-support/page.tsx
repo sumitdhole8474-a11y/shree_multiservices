@@ -53,19 +53,24 @@ export default function CustomerSupportPage() {
     "block text-sm font-semibold text-gray-800 mb-2";
 
   return (
-    <section className="min-h-screen bg-gray-50 pt-28 pb-24 px-6">
+    <section className="min-h-screen bg-gray-50 pt-16 md:pt-28 pb-24 px-6">
       <div className="max-w-3xl mx-auto">
 
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-gray-900">
-            Customer Support
-          </h1>
-          <p className="mt-3 text-gray-600 text-base max-w-xl mx-auto">
-            Have a question or need help? Fill out the form below and our team
-            will contact you shortly.
-          </p>
-        </div>
+       <div className="text-center mb-12">
+
+  <div className="flex justify-center mb-6">
+    <span className="bg-blue-600 text-white text-lg md:text-xl font-semibold px-6 py-3 rounded-full shadow-md">
+      Customer Support
+    </span>
+  </div>
+
+  <p className="text-gray-600 text-base max-w-xl mx-auto">
+    Have a question or need help? Fill out the form below and our team
+    will contact you shortly.
+  </p>
+
+</div>
 
         {/* Form Container */}
         <div className="bg-white rounded-2xl shadow-xl border border-gray-100">
