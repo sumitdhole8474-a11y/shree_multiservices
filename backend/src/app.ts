@@ -34,7 +34,13 @@ const app = express();
 /* =========================
    MIDDLEWARE
 ========================= */
-app.use(cors());
+app.use(cors({
+  origin: [
+    "https://shree-multiservices-frontend.vercel.app",
+    "https://shree-multiservices-dashboard.vercel.app",
+  ],
+  credentials: true // Required if your dashboard uses Cookies/Sessions
+}));
 
 // 🔥 IMPORTANT FOR BASE64 IMAGES
 app.use(express.json({ limit: "50mb" }));

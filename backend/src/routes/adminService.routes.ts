@@ -6,6 +6,7 @@ import {
   deleteService,
   updateService,
   toggleServiceVisibility,
+  getServiceByIdAdmin,
 } from "../controllers/adminService.controller";
 
 const router = Router();
@@ -41,6 +42,8 @@ router.post(
   createService
 );
 
+router.get("/:id", getServiceByIdAdmin);
+
 // ✅ GET ALL SERVICES (ADMIN LIST)
 router.get("/", getAllServicesAdmin);
 
@@ -53,6 +56,7 @@ router.put(
   ]),
   updateService
 );
+
 
 // ✅ TOGGLE VISIBILITY
 router.patch("/:id/toggle", toggleServiceVisibility);

@@ -387,3 +387,68 @@ export const deleteService = async (req: Request, res: Response) => {
     });
   }
 };
+
+/* =========================================================
+   GET SINGLE SERVICE (ADMIN EDIT)
+   Returns full service with all 5 images
+========================================================= */
+export const getServiceByIdAdmin = async (
+  req: Request,
+  res: Response
+) => {
+  const { id } = req.params;
+
+  try {
+    const serviceResult = await pool.query(
+      `
+      SELECT 
+        s.id,
+        s.title,
+        s.slug,
+        s.short_description,
+        s.long_description,
+        s.category_id,
+        s.is_active,
+        s.created_at
+      FROM services s
+      WHERE s.id = $1
+      LIMIT 1
+      `,
+      [id]
+    );
+
+    if (!serviceResult.rows.length) {
+      return res.status(404).json({
+        success: false,
+        message: "Service not found",
+      });
+    }
+
+    const service = serviceResult.rows[0];
+
+    const imagesResult = await pool.query(
+      `
+      SELECT id, image_url, sort_order
+      FROM service_images
+      WHERE service_id = $1
+      ORDER BY sort_order ASC
+      `,
+      [service.id]
+    );
+
+    service.images = imagesResult.rows;
+
+    return res.json({
+      success: true,
+      data: service,
+    });
+
+  } catch (error) {
+    console.error("getServiceByIdAdmin error:", error);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch service",
+    });
+  }
+};

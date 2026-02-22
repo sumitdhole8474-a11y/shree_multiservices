@@ -7,13 +7,57 @@ import ShareWidget from "@/app/components/ShareWidget";
 import ServiceGallery from "@/app/components/ServiceGallery";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import type { Metadata } from "next";
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
 
+/* =========================================================
+   🔥 SEO METADATA
+========================================================= */
+export async function generateMetadata(
+  { params }: Props
+): Promise<Metadata> {
+  const { slug } = await params;
+
+  const service = await getServiceDetail(slug);
+
+  const title = "Shree MultiServices";
+
+  if (!service) {
+    return {
+      title,
+      description: `The best services in AMT
+shreemultiservice.in`,
+    };
+  }
+
+  const description = `The best services in AMT
+${service.title}
+shreemultiservice.in`;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      siteName: "Shree MultiServices",
+      url: `https://shreemultiservice.in/services/${slug}`,
+      type: "website",
+    },
+    alternates: {
+      canonical: `https://shreemultiservice.in/services/${slug}`,
+    },
+  };
+}
+
+
+/* =========================================================
+   🔵 SERVICE PAGE
+========================================================= */
 export default async function ServiceDetailPage({ params }: Props) {
-  // ✅ FIX: Await params
   const { slug } = await params;
 
   const service = await getServiceDetail(slug);
@@ -22,18 +66,10 @@ export default async function ServiceDetailPage({ params }: Props) {
     notFound();
   }
 
-  /* =========================================================
-     5 IMAGE GALLERY LOGIC
-  ========================================================== */
-
   const galleryImages =
     Array.isArray(service.images) && service.images.length > 0
       ? service.images.slice(0, 5)
       : [];
-
-  /* =========================================================
-     RELATED SERVICES
-  ========================================================== */
 
   const relatedServices = await getServicesByCategory(
     service.category_slug
@@ -57,13 +93,11 @@ export default async function ServiceDetailPage({ params }: Props) {
       <section className="max-w-6xl mx-auto px-6 pb-16">
         <div className="grid md:grid-cols-2 gap-12 items-start">
           
-          {/* ✅ UPDATED GALLERY */}
           <ServiceGallery
             images={galleryImages.map((img) => img.image_url)}
             title={service.title}
           />
 
-          {/* 🔹 Content */}
           <div>
             <h2 className="text-4xl font-bold text-gray-900 mb-6 leading-tight">
               {service.title}
@@ -75,7 +109,6 @@ export default async function ServiceDetailPage({ params }: Props) {
                 "Detailed description coming soon."}
             </p>
 
-            {/* 🔹 Actions */}
             <div className="flex flex-wrap items-center gap-4 mt-10">
               <a
                 href={`https://wa.me/919876543210?text=I am interested in ${encodeURIComponent(
@@ -119,6 +152,24 @@ export default async function ServiceDetailPage({ params }: Props) {
           <ServiceSlider services={filteredRelated} />
         </section>
       )}
+
+      {/* 🔥 STRUCTURED DATA (GOOGLE LOVES THIS) */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Service",
+            name: service.title,
+            description: `The best services in AMT - ${service.title}`,
+            provider: {
+              "@type": "Organization",
+              name: "Shree MultiServices",
+              url: "https://shreemultiservice.in",
+            },
+          }),
+        }}
+      />
     </main>
   );
-}
+} 
