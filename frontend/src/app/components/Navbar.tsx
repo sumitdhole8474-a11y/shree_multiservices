@@ -66,16 +66,16 @@ export default function Navbar() {
               onClick={() => setIsMobileMenuOpen(false)}
             >
               <div className="shrink-0 transition-transform group-hover:scale-105">
-                <Image
-                  src="/logo.png"
-                  alt="Shree Multiservices Logo"
-                  width={45}
-                  height={45}
-                  className="w-auto h-10 sm:h-12"
-                  priority
-                />
+              <Image
+  src="/logo.png"
+  alt="Shree Multiservices Logo"
+  width={65}
+  height={65}
+  className="w-auto h-12 sm:h-14 object-contain"
+  priority
+/>
               </div>
-              <span className="text-base sm:text-lg font-bold text-slate-900 truncate">
+            <span className="text-lg sm:text-xl font-bold text-slate-900 truncate leading-tight">
                 Shree Multiservices
               </span>
             </Link>

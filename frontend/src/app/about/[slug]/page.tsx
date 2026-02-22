@@ -30,15 +30,21 @@ export default async function AboutBlogDetailPage({ params }: Props) {
       : `/${blog.cover_image}`
     : null;
 
-  return (
-    <section className="py-20 max-w-4xl mx-auto px-6">
+ return (
+  <section className="relative bg-gradient-to-b from-slate-50 to-white py-16 md:py-24">
+    
+    {/* Soft Background Glow */}
+    <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-[400px] bg-blue-100/40 blur-[120px] rounded-full -z-10" />
+
+    <div className="max-w-4xl mx-auto px-4 md:px-6">
+
       {/* Title */}
-      <h1 className="text-4xl font-bold mb-4 text-gray-900">
+      <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-slate-900 leading-tight mb-4">
         {blog.title}
       </h1>
 
       {/* Date */}
-      <p className="text-sm text-gray-400 mb-8">
+      <p className="text-sm text-slate-500 mb-10">
         {new Date(blog.created_at).toLocaleDateString("en-IN", {
           day: "numeric",
           month: "long",
@@ -48,9 +54,8 @@ export default async function AboutBlogDetailPage({ params }: Props) {
 
       {/* Cover Image */}
       {coverImage && (
-        <div className="relative w-full h-[420px] mb-10 rounded-xl overflow-hidden">
+        <div className="relative w-full aspect-[16/9] mb-12 rounded-2xl overflow-hidden shadow-xl border border-slate-100">
           {coverImage.startsWith("data:") ? (
-            // Base64 must use normal img
             <img
               src={coverImage}
               alt={blog.title}
@@ -69,9 +74,10 @@ export default async function AboutBlogDetailPage({ params }: Props) {
       )}
 
       {/* Content */}
-      <article className="prose prose-lg max-w-none text-gray-700">
+      <article className="prose prose-lg md:prose-xl max-w-none prose-slate prose-headings:text-slate-900 prose-p:text-slate-700 prose-a:text-blue-600 prose-strong:text-slate-900">
         {blog.content}
       </article>
-    </section>
-  );
-}
+
+    </div>
+  </section>
+); }
