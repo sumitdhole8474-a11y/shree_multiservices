@@ -3,10 +3,11 @@ import multer from "multer";
 import {
   createService,
   getAllServicesAdmin,
+  getServiceByIdAdmin,
   deleteService,
   updateService,
   toggleServiceVisibility,
-  getServiceByIdAdmin,
+  
 } from "../controllers/adminService.controller";
 
 const router = Router();
@@ -42,10 +43,12 @@ router.post(
   createService
 );
 
-router.get("/:id", getServiceByIdAdmin);
-
 // ✅ GET ALL SERVICES (ADMIN LIST)
 router.get("/", getAllServicesAdmin);
+
+// 2. Get a SINGLE service by ID (to populate the Edit Form)
+// This is the missing link that fetches the 5 images
+router.get("/:id", getServiceByIdAdmin);
 
 // ✅ UPDATE SERVICE (Main optional + Replace Gallery)
 router.put(

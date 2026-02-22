@@ -204,6 +204,60 @@ export const getServiceDetail = async (req: Request, res: Response) => {
 };
 
 /* =========================================================
+   GET SERVICE BY ID (FOR ADMIN EDIT FORM)
+========================================================= */
+export const getServiceByIdAdmin = async (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  try {
+    // 1. Fetch the main service data
+    const serviceResult = await pool.query(
+      `
+      SELECT s.*, c.title AS category_name
+      FROM services s
+      LEFT JOIN categories c ON c.id = s.category_id
+      WHERE s.id = $1
+      `,
+      [id]
+    );
+
+    if (serviceResult.rows.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "Service not found",
+      });
+    }
+
+    const service = serviceResult.rows[0];
+
+    // 2. Fetch ALL associated images for this service
+    const imagesResult = await pool.query(
+      `
+      SELECT id, image_url, sort_order
+      FROM service_images
+      WHERE service_id = $1
+      ORDER BY sort_order ASC
+      `,
+      [id]
+    );
+
+    // Attach images to the service object
+    service.images = imagesResult.rows;
+
+    return res.json({
+      success: true,
+      data: service,
+    });
+  } catch (error) {
+    console.error("getServiceByIdAdmin error:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Failed to fetch service details",
+    });
+  }
+};
+
+/* =========================================================
    UPDATE SERVICE
    Replace all 5 images if new ones provided
 ========================================================= */
@@ -388,67 +442,3 @@ export const deleteService = async (req: Request, res: Response) => {
   }
 };
 
-/* =========================================================
-   GET SINGLE SERVICE (ADMIN EDIT)
-   Returns full service with all 5 images
-========================================================= */
-export const getServiceByIdAdmin = async (
-  req: Request,
-  res: Response
-) => {
-  const { id } = req.params;
-
-  try {
-    const serviceResult = await pool.query(
-      `
-      SELECT 
-        s.id,
-        s.title,
-        s.slug,
-        s.short_description,
-        s.long_description,
-        s.category_id,
-        s.is_active,
-        s.created_at
-      FROM services s
-      WHERE s.id = $1
-      LIMIT 1
-      `,
-      [id]
-    );
-
-    if (!serviceResult.rows.length) {
-      return res.status(404).json({
-        success: false,
-        message: "Service not found",
-      });
-    }
-
-    const service = serviceResult.rows[0];
-
-    const imagesResult = await pool.query(
-      `
-      SELECT id, image_url, sort_order
-      FROM service_images
-      WHERE service_id = $1
-      ORDER BY sort_order ASC
-      `,
-      [service.id]
-    );
-
-    service.images = imagesResult.rows;
-
-    return res.json({
-      success: true,
-      data: service,
-    });
-
-  } catch (error) {
-    console.error("getServiceByIdAdmin error:", error);
-
-    return res.status(500).json({
-      success: false,
-      message: "Failed to fetch service",
-    });
-  }
-};
