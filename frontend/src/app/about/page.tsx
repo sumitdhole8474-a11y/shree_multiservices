@@ -13,7 +13,7 @@ import {
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Link from "next/link";
-
+import ShareWidget from "@/app/components/ShareWidget";
 
 /* -------------------- SERVICES -------------------- */
 const services = [
@@ -574,33 +574,38 @@ useEffect(() => {
                 </p>
 
                 {/* Bottom Action */}
-                <div className="mt-auto pt-4">
-                  {blog.slug ? (
-                    <Link
-                      href={`/about/${blog.slug}`}
-                      className="inline-flex items-center text-sm font-bold text-blue-600 hover:text-blue-800 transition-colors"
-                    >
-                      Read More
-                      <svg
-                        className="w-4 h-4 ml-1"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth="2"
-                          d="M17 8l4 4m0 0l-4 4m4-4H3"
-                        />
-                      </svg>
-                    </Link>
-                  ) : (
-                    <span className="text-xs text-gray-400">
-                      Blog link unavailable
-                    </span>
-                  )}
-                </div>
+               <div className="mt-auto pt-4 flex items-center justify-between">
+  
+  {/* Share Button (Left Side) */}
+  <ShareWidget title={blog.title} />
+
+  {/* Read More (Right Side) */}
+  {blog.slug ? (
+    <Link
+      href={`/about/${blog.slug}`}
+      className="inline-flex items-center text-sm font-bold text-blue-600 hover:text-blue-800 transition-colors"
+    >
+      Read More
+      <svg
+        className="w-4 h-4 ml-1"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+      >
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+          d="M17 8l4 4m0 0l-4 4m4-4H3"
+        />
+      </svg>
+    </Link>
+  ) : (
+    <span className="text-xs text-gray-400">
+      Blog link unavailable
+    </span>
+  )}
+</div>
               </div>
             </div>
           );

@@ -74,9 +74,19 @@ export default async function AboutBlogDetailPage({ params }: Props) {
       )}
 
       {/* Content */}
-      <article className="prose prose-lg md:prose-xl max-w-none prose-slate prose-headings:text-slate-900 prose-p:text-slate-700 prose-a:text-blue-600 prose-strong:text-slate-900">
-        {blog.content}
-      </article>
+     <article className="
+  prose 
+  prose-lg 
+  md:prose-xl 
+  max-w-none 
+  prose-slate
+  !text-slate-800
+  prose-p:!text-slate-800
+  prose-li:!text-slate-800
+  prose-headings:!text-slate-900
+">
+  {blog.content}
+</article>
 
     </div>
   </section>
