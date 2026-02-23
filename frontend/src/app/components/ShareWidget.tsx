@@ -21,14 +21,19 @@ const WhatsAppIcon = () => (
   </svg>
 );
 
-export default function ShareWidget({ title }: { title: string }) {
+type ShareWidgetProps = {
+  title: string;
+  category?: string; // ✅ optional now
+};
+
+export default function ShareWidget({
+  title,
+  category,
+}: ShareWidgetProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [copied, setCopied] = useState(false);
   const [currentUrl, setCurrentUrl] = useState("");
 
-  /* =============================
-     Get Current URL
-  ============================= */
   useEffect(() => {
     if (typeof window !== "undefined") {
       setCurrentUrl(window.location.href);
@@ -36,23 +41,23 @@ export default function ShareWidget({ title }: { title: string }) {
   }, []);
 
   /* =============================
-     MAIN SHARE BUTTON (Smart)
-     - Mobile → Native share
-     - Desktop → Open modal
+     FORMAT DETECTION
   ============================= */
+  const formattedTitle = category
+    ? `Best ${category} in Amaravati | ${title}` // Service format
+    : `Get know more about us | ${title}`; // Blog format
+
   const handleMainShare = async () => {
     if (!currentUrl) return;
 
     try {
-      // ✅ Native mobile share
       if (navigator.share) {
         await navigator.share({
-          title: title,
-          text: title,
+          title: formattedTitle,
+          text: formattedTitle,
           url: currentUrl,
         });
       } else {
-        // Desktop fallback → open modal
         setIsOpen(true);
       }
     } catch (err) {
@@ -60,18 +65,13 @@ export default function ShareWidget({ title }: { title: string }) {
     }
   };
 
-  /* =============================
-     COPY LINK (Works Everywhere)
-  ============================= */
   const handleCopy = async () => {
     if (!currentUrl) return;
 
     try {
-      // Secure context (HTTPS)
       if (navigator.clipboard && window.isSecureContext) {
         await navigator.clipboard.writeText(currentUrl);
       } else {
-        // Fallback for mobile / localhost
         const textArea = document.createElement("textarea");
         textArea.value = currentUrl;
         textArea.setAttribute("readonly", "");
@@ -90,16 +90,13 @@ export default function ShareWidget({ title }: { title: string }) {
     }
   };
 
-  /* =============================
-     Social Links
-  ============================= */
   const shareLinks = [
     {
       name: "WhatsApp",
       icon: <WhatsAppIcon />,
       color: "bg-green-500 hover:bg-green-600",
       url: `https://wa.me/?text=${encodeURIComponent(
-        title + " " + currentUrl
+        formattedTitle + " " + currentUrl
       )}`,
     },
     {
@@ -115,7 +112,7 @@ export default function ShareWidget({ title }: { title: string }) {
       icon: <Twitter className="w-6 h-6" />,
       color: "bg-black hover:bg-gray-800",
       url: `https://twitter.com/intent/tweet?text=${encodeURIComponent(
-        title
+        formattedTitle
       )}&url=${encodeURIComponent(currentUrl)}`,
     },
     {
@@ -130,7 +127,6 @@ export default function ShareWidget({ title }: { title: string }) {
 
   return (
     <>
-      {/* MAIN SHARE BUTTON */}
       <button
         onClick={handleMainShare}
         className="px-6 py-3 bg-blue-100 hover:bg-blue-200 text-blue-700 transition rounded-full font-semibold shadow-sm flex items-center gap-2"
@@ -139,15 +135,13 @@ export default function ShareWidget({ title }: { title: string }) {
         Share
       </button>
 
-      {/* DESKTOP MODAL */}
       {isOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden relative">
 
-            {/* Header */}
             <div className="p-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
               <h3 className="font-bold text-gray-800 text-lg">
-                Share this Service
+                Share this Page
               </h3>
               <button
                 onClick={() => setIsOpen(false)}
@@ -159,7 +153,6 @@ export default function ShareWidget({ title }: { title: string }) {
 
             <div className="p-6 space-y-6">
 
-              {/* Social Grid */}
               <div className="grid grid-cols-4 gap-4">
                 {shareLinks.map((social) => (
                   <a
@@ -181,7 +174,6 @@ export default function ShareWidget({ title }: { title: string }) {
                 ))}
               </div>
 
-              {/* Copy Section */}
               <div className="space-y-2">
                 <label className="text-sm font-semibold text-gray-700">
                   Page Link

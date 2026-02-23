@@ -7,85 +7,113 @@ import ShareWidget from "@/app/components/ShareWidget";
 import ServiceGallery from "@/app/components/ServiceGallery";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import type { Metadata } from "next";
+import { Metadata } from "next";
 
 type Props = {
   params: Promise<{ slug: string }>;
 };
 
 /* =========================================================
-   🔥 SEO METADATA
-========================================================= */
-export async function generateMetadata(
-  { params }: Props
-): Promise<Metadata> {
+    SEO METADATA GENERATION
+========================================================== */
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-
   const service = await getServiceDetail(slug);
-
-  const title = "Shree MultiServices";
 
   if (!service) {
     return {
-      title,
-      description: `The best services in AMT
-shreemultiservice.in`,
+      title: "Service Not Found | Shree Multiservices",
     };
   }
 
-  const description = `The best services in AMT
-${service.title}
-shreemultiservice.in`;
+  // Exact structure requested
+  const categoryName = service.category || "Professional Services";
+  const serviceTitle = service.title || "Shree Multiservices";
+  
+  const title = `Best ${categoryName} in Amaravati | ${serviceTitle}`;
+  const description = "Explore our comprehensive range of solutions designed to simplify your Personal, Professional and Business needs. Shree Multiservices";
 
   return {
-    title,
-    description,
+    title: title,
+    description: description,
+    alternates: {
+      canonical: `https://shreemultiservices.com/services/${slug}`, // Update with your real domain
+    },
     openGraph: {
-      title,
-      description,
-      siteName: "Shree MultiServices",
-      url: `https://shreemultiservice.in/services/${slug}`,
+      title: title,
+      description: description,
+      url: `https://shreemultiservices.com/services/${slug}`,
+      siteName: "Shree Multiservices",
+      images: service.images?.[0]?.image_url ? [{ url: service.images[0].image_url }] : [],
+      locale: "en_IN",
       type: "website",
     },
-    alternates: {
-      canonical: `https://shreemultiservice.in/services/${slug}`,
-    },
+    keywords: [
+      `${serviceTitle} in Amaravati`,
+      categoryName,
+      "Shree Multiservices Amaravati",
+      "best services in Amaravati",
+      "home services Amaravati"
+    ],
   };
 }
 
-
-/* =========================================================
-   🔵 SERVICE PAGE
-========================================================= */
 export default async function ServiceDetailPage({ params }: Props) {
   const { slug } = await params;
-
   const service = await getServiceDetail(slug);
 
   if (!service) {
     notFound();
   }
 
+  /* =========================================================
+      STRUCTURED DATA (JSON-LD) FOR LOCAL SEO
+  ========================================================== */
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": service.title,
+    "description": service.short_description || "Professional services in Amaravati",
+    "provider": {
+      "@type": "LocalBusiness",
+      "name": "Shree Multiservices",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Amaravati",
+        "addressRegion": "Maharashtra",
+        "addressCountry": "IN"
+      }
+    },
+    "areaServed": "Amaravati",
+    "image": service.images?.[0]?.image_url || ""
+  };
+
+  /* =========================================================
+      5 IMAGE GALLERY LOGIC
+  ========================================================== */
   const galleryImages =
     Array.isArray(service.images) && service.images.length > 0
       ? service.images.slice(0, 5)
       : [];
 
-  const relatedServices = await getServicesByCategory(
-    service.category_slug
-  );
-
-  const filteredRelated = relatedServices.filter(
-    (s) => s.slug !== slug
-  );
+  /* =========================================================
+      RELATED SERVICES
+  ========================================================== */
+  const relatedServices = await getServicesByCategory(service.category_slug);
+  const filteredRelated = relatedServices.filter((s) => s.slug !== slug);
 
   return (
     <main className="bg-white min-h-screen pt-24">
+      {/* Add Schema to Head */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       
       {/* 🔵 Category Header */}
       <section className="w-full pb-8 flex justify-center">
         <h1 className="text-center text-3xl font-bold text-white bg-blue-600 rounded-full px-6 py-2 tracking-wide shadow-md">
-          {service.category}
+          {service.category || "Service Detail"}
         </h1>
       </section>
 
@@ -98,7 +126,8 @@ export default async function ServiceDetailPage({ params }: Props) {
             title={service.title}
           />
 
-          <div>
+          {/* 🔹 Content */}
+          <div className="flex flex-col">
             <h2 className="text-4xl font-bold text-gray-900 mb-6 leading-tight">
               {service.title}
             </h2>
@@ -109,24 +138,28 @@ export default async function ServiceDetailPage({ params }: Props) {
                 "Detailed description coming soon."}
             </p>
 
+            {/* 🔹 Actions */}
             <div className="flex flex-wrap items-center gap-4 mt-10">
               <a
-                href={`https://wa.me/919876543210?text=I am interested in ${encodeURIComponent(
-                  service.title
+                href={`https://wa.me/919876543210?text=I%20am%20interested%20in%20${encodeURIComponent(
+                  service.title || "your services"
                 )}`}
                 target="_blank"
+                rel="noopener noreferrer"
                 className="px-6 py-3 bg-green-500 hover:bg-green-600 transition text-white rounded-full font-semibold shadow-md flex items-center gap-2"
               >
                 WhatsApp Enquiry
               </a>
 
-              <ShareWidget title={service.title} />
+           <ShareWidget 
+  title={service.title} 
+  category={service.category || "Professional Services"} 
+/>
             </div>
           </div>
         </div>
       </section>
 
-      {/* 🔹 Divider */}
       <div className="max-w-6xl mx-auto px-6">
         <hr className="border-gray-200" />
       </div>
@@ -152,24 +185,6 @@ export default async function ServiceDetailPage({ params }: Props) {
           <ServiceSlider services={filteredRelated} />
         </section>
       )}
-
-      {/* 🔥 STRUCTURED DATA (GOOGLE LOVES THIS) */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Service",
-            name: service.title,
-            description: `The best services in AMT - ${service.title}`,
-            provider: {
-              "@type": "Organization",
-              name: "Shree MultiServices",
-              url: "https://shreemultiservice.in",
-            },
-          }),
-        }}
-      />
     </main>
   );
-} 
+}
