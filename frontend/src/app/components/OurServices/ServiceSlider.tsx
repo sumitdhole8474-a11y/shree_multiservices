@@ -42,7 +42,7 @@ export default function ServiceSlider({ services }: ServiceSliderProps) {
   };
 
   return (
-<div className="relative select-none w-full px-1 sm:px-0">      
+    <div className="relative select-none w-full px-1 sm:px-0">
       {/* Left Arrow */}
       {showLeft && (
         <button
@@ -69,11 +69,17 @@ export default function ServiceSlider({ services }: ServiceSliderProps) {
       <div
         ref={sliderRef}
         onScroll={checkScroll}
-        className="grid grid-flow-col gap-4 sm:gap-6 overflow-x-auto pb-6 pt-2 scroll-smooth hide-scrollbar snap-x snap-mandatory
-        auto-cols-[calc((100%-1rem)/2)]
-        sm:auto-cols-[calc((100%-1.5rem)/2)]
-        lg:auto-cols-[calc((100%-4.5rem)/4)]
-        xl:auto-cols-[calc((100%-6rem)/5)]"
+        className="
+          grid grid-flow-col gap-4 sm:gap-6
+          overflow-x-auto
+          pb-10 pt-4
+          scroll-smooth hide-scrollbar
+          snap-x snap-mandatory
+          auto-cols-[calc((100%-1rem)/2)]
+          sm:auto-cols-[calc((100%-1.5rem)/2)]
+          lg:auto-cols-[calc((100%-4.5rem)/4)]
+          xl:auto-cols-[calc((100%-6rem)/5)]
+        "
         style={{
           scrollbarWidth: "none",
           msOverflowStyle: "none",
@@ -83,7 +89,7 @@ export default function ServiceSlider({ services }: ServiceSliderProps) {
           <div key={service.id} className="snap-start h-full">
             <ServiceCard
               title={service.title}
-              image={service.image_url} // Base64
+              image={service.image_url}
               slug={service.slug}
             />
           </div>
