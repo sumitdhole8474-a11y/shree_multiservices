@@ -1,31 +1,42 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-export const sendContactMessage = async (data: {
-  name: string;
-  mobile: string;
-  email?: string;
-  message: string;
-}) => {
-  try {
-    if (!API_URL) {
-      console.warn("⚠️ NEXT_PUBLIC_API_URL not defined");
-      return { success: false };
-    }
+export type ContactData = {
+  address: string;
+  phone1: string;
+  phone2: string;
+  email: string;
+  business_hours: string;
+  facebook_url: string;
+  instagram_url: string;
+  google_url: string;
+  map_embed_url: string;
+};
 
+export const getContactDetails = async (): Promise<ContactData> => {
+  try {
     const res = await fetch(`${API_URL}/api/contact`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data),
+      cache: "no-store",
     });
 
     if (!res.ok) {
-      console.warn("⚠️ Failed to send message:", res.status);
-      return { success: false };
+      throw new Error("Failed to fetch contact details");
     }
 
     return await res.json();
   } catch (error) {
-    console.error("❌ sendContactMessage error:", error);
-    return { success: false };
+    console.error("Contact fetch error:", error);
+
+    // Optional fallback (prevents crash)
+    return {
+      address: "",
+      phone1: "",
+      phone2: "",
+      email: "",
+      business_hours: "",
+      facebook_url: "",
+      instagram_url: "",
+      google_url: "",
+      map_embed_url: "",
+    };
   }
 };

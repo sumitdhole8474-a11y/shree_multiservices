@@ -95,14 +95,22 @@ export default function CustomerSupportPage() {
 
               <div>
                 <label className={labelClasses}>Mobile Number</label>
-                <input
-                  name="mobile"
-                  placeholder="+91 98765 43210"
-                  value={form.mobile}
-                  onChange={handleChange}
-                  className={inputClasses}
-                  required
-                />
+               <input
+  name="mobile"
+  placeholder="9876543210"
+  value={form.mobile}
+  onChange={(e) => {
+    const value = e.target.value.replace(/\D/g, "");
+    if (value.length <= 10) {
+      setForm({ ...form, mobile: value });
+    }
+  }}
+  inputMode="numeric"
+  pattern="[0-9]{10}"
+  maxLength={10}
+  className={inputClasses}
+  required
+/>
               </div>
             </div>
 
@@ -133,16 +141,31 @@ export default function CustomerSupportPage() {
 
             {/* Message */}
             <div>
-              <label className={labelClasses}>Your Message</label>
-              <textarea
-                name="query"
-                placeholder="Please describe your query..."
-                value={form.query}
-                onChange={handleChange}
-                className={`${inputClasses} h-32 resize-none`}
-                required
-              />
-            </div>
+             <div className="relative">
+  <label className={labelClasses}>Your Message</label>
+
+  <textarea
+    name="query"
+    placeholder="Please describe your query"
+    value={form.query}
+    maxLength={200}
+    onChange={(e) =>
+      setForm({ ...form, query: e.target.value.slice(0, 200) })
+    }
+    className={`${inputClasses} h-32 resize-none pr-14`}
+    required
+  />
+
+  {/* Counter bottom-right */}
+ <span
+  className={`absolute bottom-3 right-4 text-xs ${
+    form.query.length > 180 ? "text-red-500" : "text-gray-400"
+  }`}
+>
+  {form.query.length}/200
+</span>
+</div>
+</div>
 
             {/* Status Message */}
             {(error || success) && (

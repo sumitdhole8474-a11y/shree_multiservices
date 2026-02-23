@@ -117,14 +117,22 @@ if (!res.ok) {
             <div className={inputWrapperClass}>
               <Phone size={18} className="md:hidden text-gray-400 group-focus-within:text-blue-600 transition-colors duration-300 absolute left-3" />
               <Phone size={20} className="hidden md:block absolute left-4 text-gray-400 group-focus-within:text-blue-600 transition-colors duration-300" />
-              <input
-                name="mobileNumber"
-                placeholder="Mobile Number"
-                className={inputClass}
-                value={form.mobileNumber}
-                onChange={handleChange}
-                required
-              />
+            <input
+  name="mobileNumber"
+  placeholder="Mobile Number"
+  className={inputClass}
+  value={form.mobileNumber}
+  onChange={(e) => {
+    const value = e.target.value.replace(/\D/g, ""); // remove non-digits
+    if (value.length <= 10) {
+      setForm({ ...form, mobileNumber: value });
+    }
+  }}
+  inputMode="numeric"
+  pattern="[0-9]{10}"
+  maxLength={10}
+  required
+/>
             </div>
 
             <div className={inputWrapperClass}>
@@ -156,17 +164,36 @@ if (!res.ok) {
               </select>
             </div>
 
-            <div className={`${inputWrapperClass} md:col-span-2 items-start`}>
-              <MessageSquare size={18} className="md:hidden text-gray-400 group-focus-within:text-blue-600 transition-colors duration-300 absolute left-3 top-3.5" />
-              <MessageSquare size={20} className="hidden md:block absolute left-4 top-4 text-gray-400 group-focus-within:text-blue-600 transition-colors duration-300" />
-              <textarea
-                name="message"
-                placeholder="How can we help you?"
-                className={`${inputClass} min-h-[120px] md:min-h-[140px] resize-none`}
-                value={form.message}
-                onChange={handleChange}
-              />
-            </div>
+          <div className={`${inputWrapperClass} md:col-span-2 items-start relative`}>
+  <MessageSquare
+    size={18}
+    className="md:hidden absolute left-3 top-3.5 text-gray-400 group-focus-within:text-blue-600 transition-colors duration-300"
+  />
+  <MessageSquare
+    size={20}
+    className="hidden md:block absolute left-4 top-4 text-gray-400 group-focus-within:text-blue-600 transition-colors duration-300"
+  />
+
+  <textarea
+    name="message"
+    placeholder="How can we help you? (Max 200 characters)"
+    className={`${inputClass} min-h-[120px] md:min-h-[140px] resize-none pr-14`}
+    value={form.message}
+    maxLength={200}
+    onChange={(e) =>
+      setForm({ ...form, message: e.target.value.slice(0, 200) })
+    }
+  />
+
+  {/* ✅ Counter inside bottom-right */}
+  <span
+  className={`absolute bottom-3 right-4 text-xs transition-colors duration-200 ${
+    form.message.length > 180 ? "text-red-500 font-medium" : "text-gray-400"
+  }`}
+>
+  {form.message.length}/200
+</span>
+</div>
 
             {error && (
               <p className="md:col-span-2 text-red-500 text-xs md:text-sm px-2">

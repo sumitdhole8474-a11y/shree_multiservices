@@ -1,8 +1,12 @@
 import { Router } from "express";
-import { submitContactMessage } from "../controllers/contact.controller";
+import {
+  getContactDetails,
+  updateContactDetails,
+} from "../controllers/contact.controller";
 
 const router = Router();
 
-router.post("/", submitContactMessage);
+router.get("/", getContactDetails);
+router.put("/", updateContactDetails);
 
 export default router;
