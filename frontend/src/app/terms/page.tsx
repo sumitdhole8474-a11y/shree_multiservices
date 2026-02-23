@@ -1,4 +1,19 @@
-"use client";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Terms & Conditions | Shree Multiservices",
+  description:
+    "Read the Terms & Conditions of Shree Multiservices to understand the rules, usage policies, and legal guidelines for using our services.",
+  openGraph: {
+    title: "Terms & Conditions | Shree Multiservices",
+    description:
+      "Review the official Terms and Conditions of Shree Multiservices before using our services.",
+    url: "https://shreemultiservices.com/terms-and-conditions",
+    siteName: "Shree Multiservices",
+    locale: "en_IN",
+    type: "website",
+  },
+};
 
 // 👇 The keyword 'export default' MUST be here for Next.js to work
 export default function TermsAndConditionsPage() {

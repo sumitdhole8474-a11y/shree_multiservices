@@ -1,3 +1,19 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Privacy Policy | Shree Multiservices",
+  description:
+    "Read the Privacy Policy of Shree Multiservices to understand how we collect, use, and protect your personal information.",
+  openGraph: {
+    title: "Privacy Policy | Shree Multiservices",
+    description:
+      "Learn how Shree Multiservices protects your personal data and ensures privacy across our services.",
+    url: "https://shreemultiservices.com/privacy-policy",
+    siteName: "Shree Multiservices",
+    locale: "en_IN",
+    type: "website",
+  },
+};
 export default function PrivacyPolicyPage() {
   return (
     <main className="bg-[#f8fafc] text-slate-700 pt-24 pb-20 min-h-screen font-sans">
