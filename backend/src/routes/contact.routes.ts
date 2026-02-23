@@ -6,7 +6,14 @@ import {
 
 const router = Router();
 
+/* =========================
+   CONTACT ROUTES
+========================= */
+
+// GET contact details
 router.get("/", getContactDetails);
+
+// CREATE or UPDATE contact details
 router.put("/", updateContactDetails);
 
 export default router;

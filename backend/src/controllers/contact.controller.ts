@@ -16,9 +16,6 @@ export const getContactDetails = async (_req: Request, res: Response) => {
   }
 };
 
-/* =========================
-   UPDATE CONTACT DETAILS
-========================= */
 export const updateContactDetails = async (req: Request, res: Response) => {
   try {
     const {
@@ -33,36 +30,65 @@ export const updateContactDetails = async (req: Request, res: Response) => {
       map_embed_url,
     } = req.body;
 
-    await pool.query(
-      `
-      UPDATE contact_details
-      SET address=$1,
-          phone1=$2,
-          phone2=$3,
-          email=$4,
-          business_hours=$5,
-          facebook_url=$6,
-          instagram_url=$7,
-          google_url=$8,
-          map_embed_url=$9,
-          updated_at=NOW()
-      WHERE id=1
-      `,
-      [
-        address,
-        phone1,
-        phone2,
-        email,
-        business_hours,
-        facebook_url,
-        instagram_url,
-        google_url,
-        map_embed_url,
-      ]
+    // Check if row exists
+    const existing = await pool.query(
+      "SELECT id FROM contact_details WHERE id = 1"
     );
 
-    res.json({ message: "Contact details updated successfully" });
+    if (existing.rows.length === 0) {
+      // INSERT if not exists
+      await pool.query(
+        `
+        INSERT INTO contact_details 
+        (id, address, phone1, phone2, email, business_hours, facebook_url, instagram_url, google_url, map_embed_url)
+        VALUES (1,$1,$2,$3,$4,$5,$6,$7,$8,$9)
+        `,
+        [
+          address,
+          phone1,
+          phone2,
+          email,
+          business_hours,
+          facebook_url,
+          instagram_url,
+          google_url,
+          map_embed_url,
+        ]
+      );
+    } else {
+      // UPDATE if exists
+      await pool.query(
+        `
+        UPDATE contact_details
+        SET address=$1,
+            phone1=$2,
+            phone2=$3,
+            email=$4,
+            business_hours=$5,
+            facebook_url=$6,
+            instagram_url=$7,
+            google_url=$8,
+            map_embed_url=$9,
+            updated_at=NOW()
+        WHERE id=1
+        `,
+        [
+          address,
+          phone1,
+          phone2,
+          email,
+          business_hours,
+          facebook_url,
+          instagram_url,
+          google_url,
+          map_embed_url,
+        ]
+      );
+    }
+
+    res.json({ message: "Contact details saved successfully" });
   } catch (err) {
-    res.status(500).json({ message: "Failed to update contact details" });
+    console.error(err);
+    res.status(500).json({ message: "Failed to save contact details" });
   }
 };
