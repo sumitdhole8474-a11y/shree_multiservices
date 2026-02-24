@@ -2,6 +2,51 @@ import { getServicesByCategory } from "@/app/services/service.service";
 import { getCategories } from "@/app/services/category.service";
 import ServiceCard from "@/app/components/OurServices/ServiceCard";
 import { notFound } from "next/navigation";
+import type { Metadata } from "next";
+
+/* =========================================================
+   SEO METADATA FOR CATEGORY PAGE
+========================================================= */
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+
+  const categories = await getCategories();
+  const category = categories.find((c: any) => c.slug === slug);
+
+  if (!category) {
+    return {
+      title: "Category Not Found | Shree Multiservices",
+    };
+  }
+
+  const categoryName = category.title || "Professional Services";
+
+  const title = `Best ${categoryName} in Amaravati | Shree Multiservices`;
+
+  const description = `Looking for the best ${categoryName} in Amaravati? Shree Multiservices provides trusted and professional solutions tailored to your needs.`;
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: `https://shreemultiservices.com/categories/${slug}`,
+    },
+    openGraph: {
+      title,
+      description,
+      url: `https://shreemultiservices.com/categories/${slug}`,
+      siteName: "Shree Multiservices",
+      locale: "en_IN",
+      type: "website",
+    },
+    keywords: [
+      `${categoryName} in Amaravati`,
+      `Best ${categoryName}`,
+      "Shree Multiservices Amaravati",
+      "Professional services in Amaravati",
+    ],
+  };
+}
 
 type Props = {
   params: Promise<{

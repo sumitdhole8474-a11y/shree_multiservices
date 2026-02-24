@@ -1,7 +1,62 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getBlogBySlug } from "@/app/services/blog.service";
+import type { Metadata } from "next";
 
+/* =========================================================
+   SEO METADATA FOR BLOG DETAIL PAGE
+========================================================= */
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { slug } = await params;
+
+  const blog = await getBlogBySlug(slug);
+
+  if (!blog) {
+    return {
+      title: "Blog Not Found | Shree Multiservices",
+    };
+  }
+
+  const blogTitle = blog.title || "Shree Multiservices";
+
+  const title = `Know more about ${blogTitle} | Shree Multiservices`;
+
+  const description =
+    blog.description ||
+    `Read more about ${blogTitle} from Shree Multiservices and stay updated with our latest insights and services.`;
+
+  const image =
+    blog.cover_image && blog.cover_image.startsWith("data:")
+      ? undefined
+      : blog.cover_image
+      ? blog.cover_image.startsWith("/")
+        ? blog.cover_image
+        : `/${blog.cover_image}`
+      : undefined;
+
+  return {
+    title,
+    description,
+    alternates: {
+      canonical: `https://shreemultiservices.com/about/${slug}`,
+    },
+    openGraph: {
+      title,
+      description,
+      url: `https://shreemultiservices.com/about/${slug}`,
+      siteName: "Shree Multiservices",
+      images: image ? [{ url: image }] : [],
+      locale: "en_IN",
+      type: "article",
+    },
+    keywords: [
+      blogTitle,
+      "Shree Multiservices Blog",
+      "Amaravati services updates",
+      "Latest updates Shree Multiservices",
+    ],
+  };
+}
 type Props = {
   params: Promise<{
     slug: string;

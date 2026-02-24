@@ -26,34 +26,37 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     };
   }
 
-  // Exact structure requested
-  const categoryName = service.category || "Professional Services";
   const serviceTitle = service.title || "Shree Multiservices";
-  
-  const title = `Best ${categoryName} in Amaravati | ${serviceTitle}`;
-  const description = "Explore our comprehensive range of solutions designed to simplify your Personal, Professional and Business needs. Shree Multiservices";
+
+  // ✅ NEW STRUCTURE
+  const title = `Best ${serviceTitle} in Amaravati | Shree Multiservices`;
+
+  const description =
+    service.short_description ||
+    `Looking for the best ${serviceTitle} in Amaravati? Shree Multiservices provides trusted and professional services tailored to your needs.`;
 
   return {
     title: title,
     description: description,
     alternates: {
-      canonical: `https://shreemultiservices.com/services/${slug}`, // Update with your real domain
+      canonical: `https://shreemultiservices.com/services/${slug}`,
     },
     openGraph: {
       title: title,
       description: description,
       url: `https://shreemultiservices.com/services/${slug}`,
       siteName: "Shree Multiservices",
-      images: service.images?.[0]?.image_url ? [{ url: service.images[0].image_url }] : [],
+      images: service.images?.[0]?.image_url
+        ? [{ url: service.images[0].image_url }]
+        : [],
       locale: "en_IN",
       type: "website",
     },
     keywords: [
       `${serviceTitle} in Amaravati`,
-      categoryName,
+      `Best ${serviceTitle}`,
       "Shree Multiservices Amaravati",
-      "best services in Amaravati",
-      "home services Amaravati"
+      "Professional services in Amaravati",
     ],
   };
 }
