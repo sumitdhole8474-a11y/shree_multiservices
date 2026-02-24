@@ -9,8 +9,8 @@ import {
 const router = Router();
 
 router.get("/", getAllReviewsAdmin);
+router.post("/", createReviewAdmin);        // ✅ FIXED
 router.patch("/:id/hide", toggleHideReview);
 router.delete("/:id", deleteReview);
-router.post("/reviews", createReviewAdmin);
 
 export default router;
