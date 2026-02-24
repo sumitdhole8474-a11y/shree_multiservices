@@ -36,11 +36,19 @@ const app = express();
    MIDDLEWARE
 ========================= */
 app.use(cors({
-  origin: [
-    "https://shree-multiservices-frontend.vercel.app",
-    "https://shree-multiservices-dashboard.vercel.app",
-  ],
-  credentials: true // Required if your dashboard uses Cookies/Sessions
+  origin: function (origin, callback) {
+    const allowedOrigins = [
+      "https://shree-multiservices-frontend.vercel.app",
+      "https://shree-multiservices-dashboard.vercel.app",
+    ];
+
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
 }));
 
 // 🔥 IMPORTANT FOR BASE64 IMAGES
