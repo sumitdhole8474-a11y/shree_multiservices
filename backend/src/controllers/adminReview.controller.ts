@@ -102,7 +102,7 @@ export const deleteReview = async (req: Request, res: Response) => {
    CREATE REVIEW (ADMIN)
 ================================================== */
 export const createReviewAdmin = async (req: Request, res: Response) => {
-  const { name, mobile, review, rating, is_hidden } = req.body;
+  const { name, review, rating } = req.body;
 
   if (!name || !review || !rating) {
     return res.status(400).json({
@@ -126,10 +126,10 @@ export const createReviewAdmin = async (req: Request, res: Response) => {
       `,
       [
         name,
-        mobile || null,
+        null,              // ✅ mobile removed completely
         review,
         rating,
-        is_hidden ?? false, // default visible
+        false,             // ✅ always published by default
       ]
     );
 
