@@ -81,7 +81,7 @@ export default async function CategoryPage({ params }: Props) {
     
     {/* 🔹 Header */}
     <div className="text-center max-w-3xl mx-auto mb-10 md:mb-20">
-      <h1 className="inline-block text-xl md:text-3xl font-bold text-white bg-gradient-to-r from-blue-600 to-blue-700 rounded-full px-5 md:px-6 py-2 tracking-tight shadow-xl transform -rotate-1">
+      <h1 className="inline-block text-xl md:text-3xl font-bold text-white bg-gradient-to-r from-blue-600 to-blue-700 rounded-full px-5 md:px-6 py-2 tracking-tight shadow-xl ">
         {category.title}
       </h1>
     </div>
