@@ -99,20 +99,14 @@ export const deleteReview = async (req: Request, res: Response) => {
   }
 }; 
 /* ==================================================
-   CREATE REVIEW (ADMIN – Default Hidden)
+   CREATE REVIEW (ADMIN)
 ================================================== */
 export const createReviewAdmin = async (req: Request, res: Response) => {
-  const { name, mobile, review, rating } = req.body;
+  const { name, mobile, review, rating, is_hidden } = req.body;
 
-  if (!name || !mobile || !review || !rating) {
+  if (!name || !review || !rating) {
     return res.status(400).json({
-      message: "name, mobile, review and rating are required",
-    });
-  }
-
-  if (rating < 1 || rating > 5) {
-    return res.status(400).json({
-      message: "Rating must be between 1 and 5",
+      message: "Name, review and rating are required",
     });
   }
 
@@ -120,20 +114,32 @@ export const createReviewAdmin = async (req: Request, res: Response) => {
     const result = await pool.query(
       `
       INSERT INTO reviews (name, mobile, review, rating, is_hidden)
-      VALUES ($1, $2, $3, $4, true)
-      RETURNING id, name, mobile, review, rating, created_at, is_hidden
+      VALUES ($1, $2, $3, $4, $5)
+      RETURNING 
+        id,
+        name,
+        mobile,
+        review,
+        rating,
+        created_at,
+        is_hidden
       `,
-      [name, mobile, review, rating]
+      [
+        name,
+        mobile || null,
+        review,
+        rating,
+        is_hidden ?? false, // default visible
+      ]
     );
 
     res.status(201).json({
       success: true,
+      message: "Review created successfully",
       review: result.rows[0],
     });
   } catch (error) {
     console.error("createReviewAdmin error:", error);
-    res.status(500).json({
-      message: "Failed to create review",
-    });
+    res.status(500).json({ message: "Failed to create review" });
   }
 };

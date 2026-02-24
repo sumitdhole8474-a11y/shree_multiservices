@@ -1,9 +1,9 @@
 import { Router } from "express";
-import { getReviews } from "../controllers/review.controller";
+import { getReviews, createReview } from "../controllers/review.controller";
 
 const router = Router();
 
 router.get("/", getReviews);
-
+router.post("/", createReview);
 
 export default router;

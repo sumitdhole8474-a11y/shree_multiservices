@@ -30,7 +30,7 @@ export const getReviews = async (_req: Request, res: Response) => {
    CREATE REVIEW
    (DEFAULT = HIDDEN)
 ================================ */
-/*export const createReview = async (req: Request, res: Response) => {
+export const createReview = async (req: Request, res: Response) => {
   const { name, mobile, review, rating } = req.body;
 
   if (!name || !mobile || !review || !rating) {
@@ -62,7 +62,7 @@ export const getReviews = async (_req: Request, res: Response) => {
       message: "Failed to submit review",
     });
   }
-};*/
+};
 
 /* ================================
    ADMIN - GET ALL REVIEWS
