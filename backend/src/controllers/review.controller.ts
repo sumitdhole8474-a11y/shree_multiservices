@@ -30,7 +30,7 @@ export const getReviews = async (_req: Request, res: Response) => {
    CREATE REVIEW
    (DEFAULT = HIDDEN)
 ================================ */
-export const createReview = async (req: Request, res: Response) => {
+/*export const createReview = async (req: Request, res: Response) => {
   const { name, mobile, review, rating } = req.body;
 
   if (!name || !mobile || !review || !rating) {
@@ -62,4 +62,30 @@ export const createReview = async (req: Request, res: Response) => {
       message: "Failed to submit review",
     });
   }
+};*/
+
+/* ================================
+   ADMIN - GET ALL REVIEWS
+================================ */
+export const getAllReviewsAdmin = async (_req: Request, res: Response) => {
+  try {
+    const result = await pool.query(`
+      SELECT 
+        id,
+        name,
+        mobile,
+        review,
+        rating,
+        is_hidden,
+        created_at
+      FROM reviews
+      ORDER BY created_at DESC
+    `);
+
+    res.json(result.rows);
+  } catch (error) {
+    console.error("getAllReviewsAdmin error:", error);
+    res.status(500).json({ message: "Failed to fetch reviews" });
+  }
 };
+
