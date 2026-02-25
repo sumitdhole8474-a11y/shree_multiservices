@@ -10,6 +10,7 @@ export type ContactData = {
   instagram_url: string;
   google_url: string;
   map_embed_url: string;
+  status: string; // ✅ ADDED
 };
 
 export const getContactDetails = async (): Promise<ContactData> => {
@@ -37,6 +38,7 @@ export const getContactDetails = async (): Promise<ContactData> => {
       instagram_url: "",
       google_url: "",
       map_embed_url: "",
+      status: "working", // ✅ DEFAULT FALLBACK
     };
   }
 };

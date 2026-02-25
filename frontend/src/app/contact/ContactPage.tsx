@@ -143,7 +143,7 @@ export default function ContactPage() {
                     {contact.business_hours}
                   </p>
 
-                  {/* ✅ STATUS ADDED BELOW BUSINESS HOURS */}
+                  {/* ✅ STATUS BADGE (ADDED BELOW BUSINESS HOURS) */}
                   <div className="mt-4">
                     {contact.status === "working" ? (
                       <div className="inline-flex items-center gap-2 bg-green-100 text-green-700 px-4 py-2 rounded-full font-semibold text-sm">
@@ -160,6 +160,7 @@ export default function ContactPage() {
 
                 </div>
               </div>
+
             </div>
 
             {/* RIGHT COLUMN - MAP */}
