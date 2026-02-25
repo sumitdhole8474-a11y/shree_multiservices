@@ -106,7 +106,7 @@ export default async function ServiceDetailPage({ params }: Props) {
   const filteredRelated = relatedServices.filter((s) => s.slug !== slug);
 
   return (
-    <main className="bg-white min-h-screen pt-24">
+    <main className="bg-white min-h-screen pt-16 md:pt-24">
       {/* Add Schema to Head */}
       <script
         type="application/ld+json"

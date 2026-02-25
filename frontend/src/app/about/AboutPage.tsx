@@ -302,7 +302,7 @@ useEffect(() => {
 </section> 
 
 {/* ================= OUR SERVICES ================= */}
-<section className="py-14 md:py-24 bg-slate-50">
+<section className="py-14 md:pt-20 md:pb-8 bg-slate-50">
   <div className="max-w-7xl mx-auto px-6">
   <div className="flex justify-center mb-12">
   <span className="bg-blue-600 text-white text-lg md:text-xl font-semibold px-6 py-3 rounded-full shadow-md">

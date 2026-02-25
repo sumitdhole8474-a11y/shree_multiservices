@@ -122,7 +122,7 @@ export default function ContactPage() {
                   <FontAwesomeIcon icon={faEnvelope} className="text-lg" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-gray-900">Email</h3>
+                  <h3 className="font-semibold text-gray-900">Email Id</h3>
                   <a
                     href={`mailto:${contact.email}`}
                     className="text-gray-600 text-sm hover:text-blue-600"
