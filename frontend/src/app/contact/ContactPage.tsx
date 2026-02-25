@@ -26,6 +26,7 @@ type ContactData = {
   instagram_url: string;
   google_url: string;
   map_embed_url: string;
+  status: string; // ✅ ADDED
 };
 
 export default function ContactPage() {
@@ -141,6 +142,22 @@ export default function ContactPage() {
                   <p className="text-gray-600 text-sm mt-1 whitespace-pre-line">
                     {contact.business_hours}
                   </p>
+
+                  {/* ✅ STATUS ADDED BELOW BUSINESS HOURS */}
+                  <div className="mt-4">
+                    {contact.status === "working" ? (
+                      <div className="inline-flex items-center gap-2 bg-green-100 text-green-700 px-4 py-2 rounded-full font-semibold text-sm">
+                        <span className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></span>
+                        We Are Open
+                      </div>
+                    ) : (
+                      <div className="inline-flex items-center gap-2 bg-red-100 text-red-700 px-4 py-2 rounded-full font-semibold text-sm">
+                        <span className="w-3 h-3 bg-red-500 rounded-full"></span>
+                        Currently Closed
+                      </div>
+                    )}
+                  </div>
+
                 </div>
               </div>
             </div>

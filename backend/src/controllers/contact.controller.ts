@@ -28,6 +28,7 @@ export const updateContactDetails = async (req: Request, res: Response) => {
       instagram_url,
       google_url,
       map_embed_url,
+      status, // ✅ ADDED
     } = req.body;
 
     // Check if row exists
@@ -40,8 +41,8 @@ export const updateContactDetails = async (req: Request, res: Response) => {
       await pool.query(
         `
         INSERT INTO contact_details 
-        (id, address, phone1, phone2, email, business_hours, facebook_url, instagram_url, google_url, map_embed_url)
-        VALUES (1,$1,$2,$3,$4,$5,$6,$7,$8,$9)
+        (id, address, phone1, phone2, email, business_hours, facebook_url, instagram_url, google_url, map_embed_url, status)
+        VALUES (1,$1,$2,$3,$4,$5,$6,$7,$8,$9,$10)
         `,
         [
           address,
@@ -53,6 +54,7 @@ export const updateContactDetails = async (req: Request, res: Response) => {
           instagram_url,
           google_url,
           map_embed_url,
+          status || "working", // ✅ default fallback
         ]
       );
     } else {
@@ -69,6 +71,7 @@ export const updateContactDetails = async (req: Request, res: Response) => {
             instagram_url=$7,
             google_url=$8,
             map_embed_url=$9,
+            status=$10,
             updated_at=NOW()
         WHERE id=1
         `,
@@ -82,6 +85,7 @@ export const updateContactDetails = async (req: Request, res: Response) => {
           instagram_url,
           google_url,
           map_embed_url,
+          status || "working", // ✅ default fallback
         ]
       );
     }
