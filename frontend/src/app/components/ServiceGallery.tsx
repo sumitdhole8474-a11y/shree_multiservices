@@ -45,7 +45,7 @@ export default function ServiceGallery({
     <div className="w-full">
       
       {/* 🔹 BIG IMAGE */}
-      <div className="relative w-full h-72 md:h-[420px] rounded-2xl overflow-hidden shadow-lg border border-gray-100">
+      <div className="relative w-full h-72 md:h-[380px] rounded-2xl overflow-hidden shadow-lg border border-gray-100">
         {isBase64(activeImage) ? (
           <img
             src={activeImage}
@@ -65,13 +65,13 @@ export default function ServiceGallery({
 
       {/* 🔹 4 SMALL THUMBNAILS */}
       {safeImages.length > 1 && (
-        <div className="grid grid-cols-4 gap-4 mt-4">
+       <div className="flex gap-3 mt-4">
           {safeImages.slice(0, 4).map((img, index) => (
             <button
               key={index}
               type="button"
               onClick={() => setActiveImage(img)}
-              className={`relative h-20 rounded-xl overflow-hidden border-2 transition ${
+            className={`relative h-16 w-16 rounded-lg overflow-hidden border-2 transition ${
                 activeImage === img
                   ? "border-blue-600"
                   : "border-gray-200"
