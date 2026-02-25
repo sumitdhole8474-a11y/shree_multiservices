@@ -259,7 +259,7 @@ export const getServiceByIdAdmin = async (req: Request, res: Response) => {
 
 /* =========================================================
    UPDATE SERVICE
-   Replace all 5 images if new ones provided
+   Replace specific images safely
 ========================================================= */
 export const updateService = async (req: Request, res: Response) => {
   const { id } = req.params;
@@ -309,40 +309,46 @@ export const updateService = async (req: Request, res: Response) => {
 
     if (updateResult.rowCount === 0) {
       await client.query("ROLLBACK");
-
       return res.status(404).json({
         success: false,
         message: "Service not found",
       });
     }
 
-   if (galleryFiles.length > 0) {
-  const imageIds = req.body.imageIds;
+    /* =========================================================
+       FIXED IMAGE UPDATE LOGIC
+    ========================================================= */
 
-  for (let i = 0; i < galleryFiles.length; i++) {
-    const file = galleryFiles[i];
+    if (galleryFiles.length > 0) {
+      const replaceIds = req.body.replaceIds;
 
-    const base64Image = `data:${file.mimetype};base64,${file.buffer.toString(
-      "base64"
-    )}`;
+      // Always normalize into array
+      const idsArray = Array.isArray(replaceIds)
+        ? replaceIds
+        : replaceIds
+        ? [replaceIds]
+        : [];
 
-    const imageId = Array.isArray(imageIds)
-      ? imageIds[i]
-      : imageIds;
+      for (let i = 0; i < galleryFiles.length; i++) {
+        const file = galleryFiles[i];
+        const imageId = idsArray[i];
 
-    if (imageId) {
-      // Replace existing image
-      await client.query(
-        `
-        UPDATE service_images
-        SET image_url = $1
-        WHERE id = $2 AND service_id = $3
-        `,
-        [base64Image, imageId, id]
-      );
+        if (!imageId) continue;
+
+        const base64Image = `data:${file.mimetype};base64,${file.buffer.toString(
+          "base64"
+        )}`;
+
+        await client.query(
+          `
+          UPDATE service_images
+          SET image_url = $1
+          WHERE id = $2 AND service_id = $3
+          `,
+          [base64Image, imageId, id]
+        );
+      }
     }
-  }
-}
 
     await client.query("COMMIT");
 
