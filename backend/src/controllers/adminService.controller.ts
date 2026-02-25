@@ -316,37 +316,33 @@ export const updateService = async (req: Request, res: Response) => {
       });
     }
 
-    if (galleryFiles.length > 0) {
-      if (galleryFiles.length !== 5) {
-        await client.query("ROLLBACK");
+   if (galleryFiles.length > 0) {
+  const imageIds = req.body.imageIds;
 
-        return res.status(400).json({
-          success: false,
-          message: "Exactly 5 images required",
-        });
-      }
+  for (let i = 0; i < galleryFiles.length; i++) {
+    const file = galleryFiles[i];
 
+    const base64Image = `data:${file.mimetype};base64,${file.buffer.toString(
+      "base64"
+    )}`;
+
+    const imageId = Array.isArray(imageIds)
+      ? imageIds[i]
+      : imageIds;
+
+    if (imageId) {
+      // Replace existing image
       await client.query(
-        `DELETE FROM service_images WHERE service_id = $1`,
-        [id]
+        `
+        UPDATE service_images
+        SET image_url = $1
+        WHERE id = $2 AND service_id = $3
+        `,
+        [base64Image, imageId, id]
       );
-
-      for (let i = 0; i < 5; i++) {
-        const file = galleryFiles[i];
-
-        const base64Image = `data:${file.mimetype};base64,${file.buffer.toString(
-          "base64"
-        )}`;
-
-        await client.query(
-          `
-          INSERT INTO service_images (service_id, image_url, sort_order)
-          VALUES ($1, $2, $3)
-          `,
-          [id, base64Image, i + 1]
-        );
-      }
     }
+  }
+}
 
     await client.query("COMMIT");
 
