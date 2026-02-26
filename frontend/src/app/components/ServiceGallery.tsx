@@ -1,36 +1,36 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 
 type Props = {
-  images: string[]; // exactly 5 images from backend
+  images: string[];
   title: string;
 };
 
-export default function ServiceGallery({
-  images,
-  title,
-}: Props) {
+export default function ServiceGallery({ images, title }: Props) {
   /* =========================================================
-     SAFE IMAGE ARRAY (max 5 only)
+     SAFE IMAGE ARRAY (max 5, remove empty/null)
   ========================================================== */
 
-  const safeImages = Array.isArray(images)
-    ? images.filter(Boolean).slice(0, 5)
-    : [];
+  const safeImages = useMemo(() => {
+    if (!Array.isArray(images)) return [];
+    return images.filter(Boolean).slice(0, 5);
+  }, [images]);
 
-  const [activeImage, setActiveImage] = useState<string>("");
+  const [activeImage, setActiveImage] = useState<string | null>(null);
 
   /* =========================================================
-     SET DEFAULT IMAGE (first one)
+     SET DEFAULT IMAGE WHEN IMAGES CHANGE
   ========================================================== */
 
   useEffect(() => {
     if (safeImages.length > 0) {
       setActiveImage(safeImages[0]);
+    } else {
+      setActiveImage(null);
     }
-  }, [images]);
+  }, [safeImages]);
 
   /* =========================================================
      BASE64 CHECK
@@ -43,17 +43,18 @@ export default function ServiceGallery({
 
   return (
     <div className="w-full">
-      
       {/* 🔹 BIG IMAGE */}
       <div className="relative w-full h-72 md:h-[380px] rounded-2xl overflow-hidden shadow-lg border border-gray-100">
         {isBase64(activeImage) ? (
           <img
+            key={activeImage} // 🔥 forces refresh on change
             src={activeImage}
             alt={title}
             className="w-full h-full object-cover transition-all duration-300"
           />
         ) : (
           <Image
+            key={activeImage} // 🔥 forces refresh
             src={activeImage}
             alt={title}
             fill
@@ -63,18 +64,18 @@ export default function ServiceGallery({
         )}
       </div>
 
-      {/* 🔹 4 SMALL THUMBNAILS */}
+      {/* 🔹 THUMBNAILS */}
       {safeImages.length > 1 && (
-       <div className="flex gap-3 mt-4">
-          {safeImages.slice(0, 4).map((img, index) => (
+        <div className="flex gap-3 mt-4 flex-wrap">
+          {safeImages.map((img, index) => (
             <button
-              key={index}
+              key={`${img}-${index}`}
               type="button"
               onClick={() => setActiveImage(img)}
-            className={`relative h-16 w-16 rounded-lg overflow-hidden border-2 transition ${
+              className={`relative h-16 w-16 rounded-lg overflow-hidden border-2 transition ${
                 activeImage === img
-                  ? "border-blue-600"
-                  : "border-gray-200"
+                  ? "border-blue-600 scale-105"
+                  : "border-gray-200 hover:border-gray-400"
               }`}
             >
               {isBase64(img) ? (
