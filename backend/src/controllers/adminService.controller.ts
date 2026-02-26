@@ -257,10 +257,6 @@ export const getServiceByIdAdmin = async (req: Request, res: Response) => {
   }
 };
 
-/* =========================================================
-   UPDATE SERVICE
-   Replace specific images safely
-========================================================= */
 export const updateService = async (req: Request, res: Response) => {
   const { id } = req.params;
   const client = await pool.connect();
@@ -280,6 +276,10 @@ export const updateService = async (req: Request, res: Response) => {
     const galleryFiles = files?.gallery || [];
 
     await client.query("BEGIN");
+
+    /* ===============================
+       1️⃣ UPDATE TEXT FIELDS
+    =============================== */
 
     const slug = title
       ? slugify(title, { lower: true, strict: true })
@@ -315,38 +315,42 @@ export const updateService = async (req: Request, res: Response) => {
       });
     }
 
-    /* =========================================================
-       FIXED IMAGE UPDATE LOGIC
-    ========================================================= */
+    /* ===============================
+       2️⃣ UPDATE ONLY PROVIDED IMAGES
+    =============================== */
 
     if (galleryFiles.length > 0) {
-      const replaceIds = req.body.replaceIds;
+      // Get existing images ordered
+      const existingImages = await client.query(
+        `
+        SELECT id, sort_order
+        FROM service_images
+        WHERE service_id = $1
+        ORDER BY sort_order ASC
+        `,
+        [id]
+      );
 
-      // Always normalize into array
-      const idsArray = Array.isArray(replaceIds)
-        ? replaceIds
-        : replaceIds
-        ? [replaceIds]
-        : [];
+      const existing = existingImages.rows;
 
       for (let i = 0; i < galleryFiles.length; i++) {
         const file = galleryFiles[i];
-        const imageId = idsArray[i];
-
-        if (!imageId) continue;
 
         const base64Image = `data:${file.mimetype};base64,${file.buffer.toString(
           "base64"
         )}`;
 
-        await client.query(
-          `
-          UPDATE service_images
-          SET image_url = $1
-          WHERE id = $2 AND service_id = $3
-          `,
-          [base64Image, imageId, id]
-        );
+        // Replace image at same position
+        if (existing[i]) {
+          await client.query(
+            `
+            UPDATE service_images
+            SET image_url = $1
+            WHERE id = $2
+            `,
+            [base64Image, existing[i].id]
+          );
+        }
       }
     }
 
@@ -369,7 +373,6 @@ export const updateService = async (req: Request, res: Response) => {
     client.release();
   }
 };
-
 /* =========================================================
    TOGGLE SERVICE VISIBILITY
 ========================================================= */
