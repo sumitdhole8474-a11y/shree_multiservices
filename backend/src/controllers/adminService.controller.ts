@@ -319,39 +319,43 @@ export const updateService = async (req: Request, res: Response) => {
        2️⃣ UPDATE ONLY PROVIDED IMAGES
     =============================== */
 
-    if (galleryFiles.length > 0) {
-      // Get existing images ordered
-      const existingImages = await client.query(
-        `
-        SELECT id, sort_order
-        FROM service_images
-        WHERE service_id = $1
-        ORDER BY sort_order ASC
-        `,
-        [id]
-      );
+ if (galleryFiles.length > 0) {
+  const positions = req.body.positions;
 
-      const existing = existingImages.rows;
+  const existingImages = await client.query(
+    `
+    SELECT id
+    FROM service_images
+    WHERE service_id = $1
+    ORDER BY sort_order ASC
+    `,
+    [id]
+  );
 
-      for (let i = 0; i < galleryFiles.length; i++) {
-        const file = galleryFiles[i];
+  const existing = existingImages.rows;
 
-        const base64Image = `data:${file.mimetype};base64,${file.buffer.toString(
-          "base64"
-        )}`;
+  for (let i = 0; i < galleryFiles.length; i++) {
+    const file = galleryFiles[i];
+    const position = parseInt(
+      Array.isArray(positions) ? positions[i] : positions
+    );
 
-        // Replace image at same position
-        if (existing[i]) {
-          await client.query(
-            `
-            UPDATE service_images
-            SET image_url = $1
-            WHERE id = $2
-            `,
-            [base64Image, existing[i].id]
-          );
-        }
-      }
+    if (!existing[position]) continue;
+
+    const base64Image = `data:${file.mimetype};base64,${file.buffer.toString(
+      "base64"
+    )}`;
+
+    await client.query(
+      `
+      UPDATE service_images
+      SET image_url = $1
+      WHERE id = $2
+      `,
+      [base64Image, existing[position].id]
+    );
+  }
+
     }
 
     await client.query("COMMIT");
