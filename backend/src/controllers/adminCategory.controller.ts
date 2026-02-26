@@ -32,7 +32,6 @@ export const createCategory = async (req: Request, res: Response) => {
   const slug = title.toLowerCase().replace(/\s+/g, "-");
 
   try {
-    // Get max sort_order
     const orderResult = await pool.query(
       `SELECT COALESCE(MAX(sort_order), 0) AS max_order FROM categories`
     );
@@ -53,31 +52,41 @@ export const createCategory = async (req: Request, res: Response) => {
   }
 };
 
+/* ============================= */
+/* REORDER CATEGORIES */
+/* ============================= */
 export const reorderCategories = async (req: Request, res: Response) => {
   const { orderedIds } = req.body;
 
-  if (!Array.isArray(orderedIds)) {
+  if (!Array.isArray(orderedIds) || orderedIds.length === 0) {
     return res.status(400).json({
       message: "Invalid order data",
     });
   }
 
+  const client = await pool.connect();
+
   try {
+    await client.query("BEGIN");
+
     for (let i = 0; i < orderedIds.length; i++) {
-      await pool.query(
-        `
-        UPDATE categories
-        SET sort_order = $1
-        WHERE id = $2
-        `,
+      await client.query(
+        `UPDATE categories
+         SET sort_order = $1
+         WHERE id = $2`,
         [i + 1, orderedIds[i]]
       );
     }
 
+    await client.query("COMMIT");
+
     res.json({ message: "Categories reordered successfully" });
   } catch (error) {
+    await client.query("ROLLBACK");
     console.error("reorderCategories error:", error);
     res.status(500).json({ message: "Failed to reorder categories" });
+  } finally {
+    client.release();
   }
 };
 
