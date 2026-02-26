@@ -355,8 +355,30 @@ export const updateService = async (req: Request, res: Response) => {
       [base64Image, existing[position].id]
     );
   }
+}
 
-    }
+/* ===============================
+   3️⃣ UPDATE IMAGE ORDER (DRAG REORDER FIX)
+=============================== */
+
+const orderIds = req.body["order_ids[]"] || req.body.order_ids;
+
+if (orderIds) {
+  const idsArray = Array.isArray(orderIds)
+    ? orderIds
+    : [orderIds];
+
+  for (let i = 0; i < idsArray.length; i++) {
+    await client.query(
+      `
+      UPDATE service_images
+      SET sort_order = $1
+      WHERE id = $2
+      `,
+      [i + 1, idsArray[i]]
+    );
+  }
+}
 
     await client.query("COMMIT");
 
@@ -377,6 +399,8 @@ export const updateService = async (req: Request, res: Response) => {
     client.release();
   }
 };
+
+
 /* =========================================================
    TOGGLE SERVICE VISIBILITY
 ========================================================= */
