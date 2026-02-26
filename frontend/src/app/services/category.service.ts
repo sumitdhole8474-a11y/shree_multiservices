@@ -1,13 +1,18 @@
 const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-// ✅ Add this interface for Type Safety
+/* =============================
+   CATEGORY TYPE
+============================= */
 export interface Category {
   id: number;
   title: string;
   slug: string;
-  is_active: boolean;
 }
 
+/* =============================
+   GET PUBLIC CATEGORIES
+   (Ordered by sort_order in backend)
+============================= */
 export const getCategories = async (): Promise<Category[]> => {
   try {
     if (!API_URL) {
@@ -24,7 +29,15 @@ export const getCategories = async (): Promise<Category[]> => {
       return [];
     }
 
-    return await res.json();
+    const data = await res.json();
+
+    // Ensure array safety
+    if (!Array.isArray(data)) {
+      console.warn("⚠️ Invalid categories response");
+      return [];
+    }
+
+    return data as Category[];
   } catch (error) {
     console.error("❌ getCategories error:", error);
     return [];

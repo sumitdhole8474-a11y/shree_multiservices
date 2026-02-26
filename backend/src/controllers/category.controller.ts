@@ -7,7 +7,7 @@ export const getCategories = async (_req: Request, res: Response) => {
       `SELECT id, title, slug
        FROM categories
        WHERE is_active = true
-       ORDER BY created_at ASC`
+       ORDER BY sort_order ASC`
     );
 
     res.json(result.rows);

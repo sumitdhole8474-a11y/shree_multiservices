@@ -7,9 +7,9 @@ import pool from "../config/db";
 export const getCategories = async (_req: Request, res: Response) => {
   try {
     const result = await pool.query(
-      `SELECT id, title, slug, created_at
+      `SELECT id, title, slug, created_at, sort_order
        FROM categories
-       ORDER BY created_at DESC`
+       ORDER BY sort_order ASC`
     );
 
     res.json(result.rows);
@@ -32,17 +32,52 @@ export const createCategory = async (req: Request, res: Response) => {
   const slug = title.toLowerCase().replace(/\s+/g, "-");
 
   try {
+    // Get max sort_order
+    const orderResult = await pool.query(
+      `SELECT COALESCE(MAX(sort_order), 0) AS max_order FROM categories`
+    );
+
+    const nextOrder = orderResult.rows[0].max_order + 1;
+
     const result = await pool.query(
-      `INSERT INTO categories (title, slug)
-       VALUES ($1, $2)
+      `INSERT INTO categories (title, slug, sort_order)
+       VALUES ($1, $2, $3)
        RETURNING *`,
-      [title, slug]
+      [title, slug, nextOrder]
     );
 
     res.status(201).json(result.rows[0]);
   } catch (error) {
     console.error("createCategory error:", error);
     res.status(500).json({ message: "Failed to create category" });
+  }
+};
+
+export const reorderCategories = async (req: Request, res: Response) => {
+  const { orderedIds } = req.body;
+
+  if (!Array.isArray(orderedIds)) {
+    return res.status(400).json({
+      message: "Invalid order data",
+    });
+  }
+
+  try {
+    for (let i = 0; i < orderedIds.length; i++) {
+      await pool.query(
+        `
+        UPDATE categories
+        SET sort_order = $1
+        WHERE id = $2
+        `,
+        [i + 1, orderedIds[i]]
+      );
+    }
+
+    res.json({ message: "Categories reordered successfully" });
+  } catch (error) {
+    console.error("reorderCategories error:", error);
+    res.status(500).json({ message: "Failed to reorder categories" });
   }
 };
 
