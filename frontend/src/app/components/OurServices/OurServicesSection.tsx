@@ -89,40 +89,62 @@ export default function OurServices() {
         </div>
 
         {/* ================= SEARCH + FILTER ================= */}
-        <div className="flex flex-col md:flex-row gap-4 mb-12 justify-center items-center">
+        {/* ================= SEARCH + FILTER ================= */}
+<div className="flex flex-col md:flex-row gap-4 mb-12 justify-center items-center">
 
-          {/* SEARCH */}
-          <div className="relative w-full md:w-96">
-            <Search
-              size={18}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
-            />
+  {/* SEARCH */}
+  <div className="relative w-full md:w-96">
+    <Search
+      size={18}
+      className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+    />
 
-            <input
-              type="text"
-              placeholder="Search services or categories..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none"
-            />
-          </div>
+    <input
+      type="text"
+      placeholder="Search services or categories..."
+      value={search}
+      onChange={(e) => setSearch(e.target.value)}
+      className="
+        w-full pl-10 pr-4 py-3
+        rounded-xl border border-gray-300
+        bg-white
+        text-gray-900
+        placeholder:text-gray-400
+        focus:outline-none
+        focus:ring-2 focus:ring-blue-500
+        focus:border-blue-500
+        transition
+      "
+    />
+  </div>
 
-          {/* CATEGORY FILTER */}
-          <select
-            value={selectedCategory}
-            onChange={(e) => setSelectedCategory(e.target.value)}
-            className="px-4 py-3 rounded-xl border border-gray-300 focus:ring-2 focus:ring-blue-400 focus:outline-none"
-          >
-            <option value="all">All Categories</option>
+  {/* CATEGORY FILTER */}
+  <select
+    value={selectedCategory}
+    onChange={(e) => setSelectedCategory(e.target.value)}
+    className="
+      w-full md:w-60
+      px-4 py-3
+      rounded-xl border border-gray-300
+      bg-white
+      text-gray-900
+      focus:outline-none
+      focus:ring-2 focus:ring-blue-500
+      focus:border-blue-500
+      cursor-pointer
+      transition
+    "
+  >
+    <option value="all">All Categories</option>
 
-            {categories.map((category) => (
-              <option key={category.id} value={category.slug}>
-                {category.title}
-              </option>
-            ))}
-          </select>
-        </div>
+    {categories.map((category) => (
+      <option key={category.id} value={category.slug}>
+        {category.title}
+      </option>
+    ))}
+  </select>
 
+</div>
         {/* ================= SERVICES ================= */}
         <div className="space-y-16">
           {filteredCategories.map((category) => {
