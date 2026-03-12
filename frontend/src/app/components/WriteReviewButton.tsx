@@ -3,7 +3,7 @@
 export default function WriteReviewButton() {
   return (
     <a
-      href="https://g.page/r/CVopq8vfr-Y6EBM/review"
+      href="https://g.page/r/CQ1Z84RjARMIEBE/review"
       target="_blank"
       rel="noopener noreferrer"
       className="inline-flex items-center gap-3 px-6 py-3 bg-white text-black rounded-full font-semibold shadow-md border border-gray-200 hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300"

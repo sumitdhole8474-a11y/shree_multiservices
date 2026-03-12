@@ -70,7 +70,7 @@ export default function HeroSection() {
 
             {/* GOOGLE REVIEW BUTTON */}
             <a
-              href="https://g.page/r/CVopq8vfr-Y6EBM/review"
+              href="https://g.page/r/CQ1Z84RjARMIEBE/review"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-3 px-6 py-3 bg-white text-black rounded-full shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-300 whitespace-nowrap border border-gray-200"
