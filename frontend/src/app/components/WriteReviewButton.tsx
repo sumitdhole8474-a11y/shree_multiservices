@@ -32,7 +32,6 @@ export default function WriteReviewButton() {
           d="M24 48c6.5 0 12-2.1 16-5.7l-6.5-5c-2 1.4-4.6 2.2-9.5 2.2-6 0-11-3.5-13.1-8.5l-8.1 6.3C6.7 42.5 14.7 48 24 48z"
         />
       </svg>
-
       Write a Review
     </a>
   );
